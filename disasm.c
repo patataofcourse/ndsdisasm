@@ -42,7 +42,7 @@ const int gOptionDataColumnWidth = 16;
 int disasm_add_label(uint32_t addr, uint8_t type, char *name)
 {
     int i;
-
+    if(addr < gRamStart) return 0;
     //printf("adding label 0x%08X\n", addr);
     // Search for label
     //assert(addr >= ROM_LOAD_ADDR && addr < ROM_LOAD_ADDR + gInputFileBufferSize);
