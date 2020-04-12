@@ -75,6 +75,12 @@ int disasm_add_label(uint32_t addr, uint8_t type, char *name)
     gLabels[i].processed = false;
     gLabels[i].name = name;
     gLabels[i].isFunc = false;
+
+    if((addr - ROM_LOAD_ADDR) > gInputFileBufferSize)
+    {
+        gLabels[i].processed = true;
+    }
+
     return i;
 }
 
@@ -347,7 +353,7 @@ static void analyze(void)
         {
             cs_option(sCapstone, CS_OPT_MODE, (type == LABEL_ARM_CODE) ? CS_MODE_ARM : CS_MODE_THUMB);
             sJumpTableState = 0;
-            //fprintf(stderr, "analyzing label at 0x%08X\n", addr);
+            fprintf(stderr, "analyzing label at 0x%08X\n", addr);
             do
             {
                 count = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 0x1000, addr, 0, &insn);

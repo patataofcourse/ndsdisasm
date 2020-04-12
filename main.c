@@ -212,10 +212,10 @@ int main(int argc, char **argv)
 
     if (romFileName == NULL)
         fatal_error("no ROM file specified");
-    if (configFileName != NULL)
-        read_config(configFileName);
     read_input_file(romFileName);
     ROM_LOAD_ADDR=gRamStart;
+    if (configFileName != NULL)
+        read_config(configFileName);
     disasm_disassemble();
     free(gInputFileBuffer);
     return 0;
