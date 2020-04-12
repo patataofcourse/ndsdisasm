@@ -16,6 +16,8 @@ struct ConfigLabel
 
 uint8_t *gInputFileBuffer;
 size_t gInputFileBufferSize;
+uint32_t gRomStart;
+uint32_t gRamStart;
 
 void fatal_error(const char *fmt, ...)
 {
@@ -35,9 +37,13 @@ static void read_input_file(const char *fname)
 
     if (file == NULL)
         fatal_error("could not open input file '%s'", fname);
-    fseek(file, 0, SEEK_END);
-    gInputFileBufferSize = ftell(file);
-    fseek(file, 0, SEEK_SET);
+    fseek(file, 0x2C, SEEK_SET);
+    fread(&gInputFileBufferSize, 4, 1, file);
+    fseek(file, 0x28, SEEK_SET);
+    fread(&gRamStart, 4, 1, file);
+    fseek(file, 0x20, SEEK_SET);
+    fread(&gRomStart, 4, 1, file);
+    fseek(file, gRomStart, SEEK_SET);
     gInputFileBuffer = malloc(gInputFileBufferSize);
     if (gInputFileBuffer == NULL)
         fatal_error("failed to alloc file buffer for '%s'", fname);
@@ -171,7 +177,7 @@ int main(int argc, char **argv)
     int i;
     const char *romFileName = NULL;
     const char *configFileName = NULL;
-    ROM_LOAD_ADDR = 0x08000000;
+    //ROM_LOAD_ADDR = 0x08000000;
 
 #ifdef _WIN32
     // Work around MinGW bug that prevents us from seeing the assert message
@@ -209,6 +215,7 @@ int main(int argc, char **argv)
     if (configFileName != NULL)
         read_config(configFileName);
     read_input_file(romFileName);
+    ROM_LOAD_ADDR=gRamStart;
     disasm_disassemble();
     free(gInputFileBuffer);
     return 0;

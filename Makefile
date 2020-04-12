@@ -12,7 +12,7 @@ else
 CFLAGS += -O3
 endif
 #CFLAGS += -fsanitize=address
-PROGRAM := gbadisasm
+PROGRAM := ndsdisasm
 SOURCES := main.c disasm.c
 LIBS := $(CAPSTONE_LIB)
 

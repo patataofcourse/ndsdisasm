@@ -724,10 +724,11 @@ static int qsort_label_compare(const void *a, const void *b)
 
 static void print_disassembly(void)
 {
-    uint32_t addr = ROM_LOAD_ADDR;
+    //uint32_t addr = ROM_LOAD_ADDR;
     int i = 0;
 
     qsort(gLabels, gLabelsCount, sizeof(*gLabels), qsort_label_compare);
+    uint32_t addr = gLabels[0].addr;
 
     for (i = 0; i < gLabelsCount - 1; i++)
         assert(gLabels[i].addr < gLabels[i + 1].addr);
@@ -929,10 +930,10 @@ void disasm_disassemble(void)
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
 
     // entry point
-    disasm_add_label(ROM_LOAD_ADDR, LABEL_ARM_CODE, NULL);
+    //disasm_add_label(ROM_LOAD_ADDR, LABEL_ARM_CODE, NULL);
 
     // rom header
-    disasm_add_label(ROM_LOAD_ADDR + 4, LABEL_DATA, NULL);
+    //disasm_add_label(ROM_LOAD_ADDR + 4, LABEL_DATA, NULL);
 
     analyze();
     print_disassembly();

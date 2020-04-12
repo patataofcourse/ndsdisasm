@@ -11,6 +11,8 @@ enum LabelType
 extern uint8_t *gInputFileBuffer;
 extern size_t gInputFileBufferSize;
 extern uint32_t ROM_LOAD_ADDR;
+extern uint32_t gRomStart;
+extern uint32_t gRamStart;
 
 // disasm.c
 int disasm_add_label(uint32_t addr, uint8_t type, char *name);
