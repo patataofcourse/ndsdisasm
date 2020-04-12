@@ -1,7 +1,8 @@
-gbadisasm
+ndsdisasm
 hashtable.c
 hashtable.h
 *.exe
 capstone-3.0.5-rc2
 *.gba
 .fuse_hidden*
+*.nds
