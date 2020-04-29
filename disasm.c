@@ -137,6 +137,7 @@ static bool is_branch(const struct cs_insn *insn)
     case ARM_INS_B:
     case ARM_INS_BX:
     case ARM_INS_BL:
+    case ARM_INS_BLX:
         return true;
     }
     return false;
@@ -204,13 +205,99 @@ static uint32_t get_branch_target(const struct cs_insn *insn)
 
 static int sJumpTableState = 0;
 
-static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr)
+static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t addr)
+{
+    static uint32_t jumpTableBegin;
+    // sometimes another instruction (like a mov) can interrupt
+    static bool gracePeriod;
+
+    switch (sJumpTableState)
+    {
+    case 0:
+        // add rX, rX, rX
+        gracePeriod = false;
+        if (insn->id == ARM_INS_ADD && insn->detail->arm.operands[2].type == ARM_OP_REG && insn->detail->arm.operands[1].reg == insn->detail->arm.operands[2].reg)
+            goto match;
+        break;
+    case 1:
+        // add rX, pc
+        if (insn->id == ARM_INS_ADD && insn->detail->arm.operands[1].type == ARM_OP_REG && insn->detail->arm.operands[1].reg == ARM_REG_PC)
+            goto match;
+        break;
+    case 2:
+        // ldrh rX, [rX, #imm]
+        if (insn->id == ARM_INS_LDRH) {
+            jumpTableBegin = insn->detail->arm.operands[1].mem.disp + addr + 2;
+            goto match;
+        }
+        break;
+    case 3:
+        // lsls rX, 16
+        if (insn->id == ARM_INS_LSL)
+            goto match;
+        break;
+    case 4:
+        // asrs rX, 16
+        if (insn->id == ARM_INS_ASR)
+            goto match;
+        break;
+    case 5:
+        // add pc, rX
+        if (insn->id == ARM_INS_ADD && insn->detail->arm.operands[0].reg == ARM_REG_PC)
+        {
+            goto match;
+        }
+        break;
+    }
+    // didn't match
+    if (gracePeriod)
+        sJumpTableState = 0;
+    else
+        gracePeriod = true;
+    return;
+
+    match:
+    if (sJumpTableState == 5)  // all checks passed
+    {
+        uint32_t target;
+        uint32_t firstTarget = -1u;
+
+        // jump table is not in ROM, indicating it's from a library loaded into RAM
+        assert(jumpTableBegin & ROM_LOAD_ADDR);
+        disasm_add_label(jumpTableBegin, LABEL_JUMP_TABLE_THUMB, NULL);
+        sJumpTableState = 0;
+        // add code labels from jump table
+        addr = jumpTableBegin;
+        while (addr < firstTarget)
+        {
+            int label;
+
+            target = hword_at(addr) + jumpTableBegin + 2;
+            if (target - ROM_LOAD_ADDR >= 0x02000000)
+                break;
+            if (target < firstTarget && target > jumpTableBegin)
+                firstTarget = target;
+            label = disasm_add_label(target, LABEL_THUMB_CODE, NULL);
+            gLabels[label].branchType = BRANCH_TYPE_B;
+            addr += 2;
+        }
+
+        return;
+    }
+    sJumpTableState++;
+}
+
+static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr, uint8_t type)
 {
     static uint32_t jumpTableBegin;
     // sometimes another instruction (like a mov) can interrupt
     static bool gracePeriod;
     static uint32_t poolAddr;
 
+    if (type == LABEL_THUMB_CODE) {
+        jump_table_state_machine_thumb(insn, addr);
+        return;
+    }
     switch (sJumpTableState)
     {
       case 0:
@@ -324,7 +411,7 @@ static void renew_or_add_new_func_label(int type, uint32_t word)
 
 static bool IsValidInstruction(cs_insn * insn, int type)
 {
-    if (cs_insn_group(sCapstone, insn, ARM_GRP_V4T))
+    if (cs_insn_group(sCapstone, insn, ARM_GRP_V5TE))
         return true;
     if (type == LABEL_ARM_CODE) {
         return cs_insn_group(sCapstone, insn, ARM_GRP_ARM);
@@ -369,10 +456,12 @@ static void analyze(void)
                             addr += 2;
                             if (insn[i].size == 2) continue;
                             tmp_cnt = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 2, addr, 0, &tmp);
-                            assert(tmp_cnt == 1);
-                            free(insn[i].detail);
-                            insn[i] = *tmp;
-                            free(tmp);
+                            if (tmp_cnt == 1)
+                            {
+                                free(insn[i].detail);
+                                insn[i] = *tmp;
+                                free(tmp);
+                            }
                             goto no_inc;
                         }
                         else
@@ -381,7 +470,7 @@ static void analyze(void)
                             continue;
                         }
                     };
-                    jump_table_state_machine(&insn[i], addr);
+                    jump_table_state_machine(&insn[i], addr, type);
 
                     // fprintf(stderr, "/*0x%08X*/ %s %s\n", addr, insn[i].mnemonic, insn[i].op_str);
                     if (is_branch(&insn[i]))
@@ -425,7 +514,7 @@ static void analyze(void)
 
                             if (!gLabels[lbl].isFunc) // do nothing if it's 100% a func (from func ptr, or instant mode exchange)
                             {
-                                if (insn[i].id == ARM_INS_BL)
+                                if (insn[i].id == ARM_INS_BL || insn[i].id == ARM_INS_BLX)
                                 {
                                     const struct Label *next;
 
@@ -454,7 +543,7 @@ static void analyze(void)
                         }
 
                         // unconditional jump and not a function call
-                        if (insn[i].detail->arm.cc == ARM_CC_AL && insn[i].id != ARM_INS_BL)
+                        if (insn[i].detail->arm.cc == ARM_CC_AL && insn[i].id != ARM_INS_BL && insn[i].id != ARM_INS_BLX)
                             break;
                     }
                     else
@@ -588,6 +677,7 @@ static void print_gap(uint32_t addr, uint32_t nextaddr)
 
 static void print_insn(const cs_insn *insn, uint32_t addr, int mode)
 {
+    struct Label DummyLabel;
     if (gOptionShowAddrComments)
     {
         printf("\t/*0x%08X*/ %s %s\n", addr, insn->mnemonic, insn->op_str);
@@ -602,7 +692,10 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode)
             if (isFullRom)
                 assert(label != NULL);  // We should have found this label in the analysis phase
             else if (label == NULL) {
-                label = &gLabels[disasm_add_label(target, LABEL_THUMB_CODE, NULL)];
+                DummyLabel.addr = target;
+                DummyLabel.name = NULL;
+                DummyLabel.branchType = BRANCH_TYPE_BL;
+                label = &DummyLabel;
             }
             if (label->name != NULL)
                 printf("\t%s %s\n", insn->mnemonic, label-> name);
@@ -826,10 +919,12 @@ static void print_disassembly(void)
                             addr += 2;
                             if (insn[j].size == 2) continue;
                             tmp_cnt = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 2, addr, 0, &tmp);
-                            assert(tmp_cnt == 1);
-                            free(insn[j].detail);
-                            insn[j] = *tmp;
-                            free(tmp);
+                            if (tmp_cnt == 1)
+                            {
+                                free(insn[j].detail);
+                                insn[j] = *tmp;
+                                free(tmp);
+                            }
                             goto no_inc;
                         }
                         else
@@ -897,6 +992,24 @@ static void print_disassembly(void)
                 addr += 4;
             }
             break;
+        case LABEL_JUMP_TABLE_THUMB:
+        {
+            uint32_t start = addr;
+            uint32_t end = addr + gLabels[i].size;
+            int caseNum = 0;
+
+            printf("_%08X: @ jump table\n", addr);
+            while (addr < end)
+            {
+                uint16_t offset = hword_at(addr);
+                uint32_t word = start + offset + 2;
+
+                printf("\t.2byte _%08X - _%08X - 2 @ case %i\n", word, start, caseNum);
+                caseNum++;
+                addr += 2;
+            }
+        }
+            break;
         case LABEL_JUMP_TABLE:
             {
                 uint32_t end = addr + gLabels[i].size;
@@ -906,7 +1019,7 @@ static void print_disassembly(void)
                 while (addr < end)
                 {
                     uint32_t word = word_at(addr);
-                    
+
                     if (word & ROM_LOAD_ADDR)
                         printf("\t.4byte _%08X @ case %i\n", word, caseNum);
                     else

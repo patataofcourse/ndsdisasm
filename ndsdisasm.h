@@ -6,6 +6,7 @@ enum LabelType
     LABEL_DATA,
     LABEL_POOL,
     LABEL_JUMP_TABLE,
+    LABEL_JUMP_TABLE_THUMB,
 };
 
 extern uint8_t *gInputFileBuffer;
