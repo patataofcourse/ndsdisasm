@@ -1,0 +1,8 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+ADD_SUBDIRECTORY(capstone-3.0.5-rc2)
+PROJECT(ndsdisasm)
+ADD_EXECUTABLE(ndsdisasm main.c disasm.c)
+ADD_DEPENDENCIES(ndsdisasm capstone-static)
+TARGET_INCLUDE_DIRECTORIES(ndsdisasm PRIVATE capstone-3.0.5-rc2/include)
+TARGET_LINK_DIRECTORIES(ndsdisasm PRIVATE ${CMAKE_BINARY_DIR}/capstone-3.0.5-rc2)
+TARGET_LINK_LIBRARIES(ndsdisasm PRIVATE capstone)

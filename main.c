@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <capstone.h>
 
 #include "ndsdisasm.h"
 
@@ -18,6 +19,7 @@ uint8_t *gInputFileBuffer;
 size_t gInputFileBufferSize;
 uint32_t gRomStart;
 uint32_t gRamStart;
+bool isFullRom = true;
 
 void fatal_error(const char *fmt, ...)
 {
@@ -37,13 +39,21 @@ static void read_input_file(const char *fname)
 
     if (file == NULL)
         fatal_error("could not open input file '%s'", fname);
-    fseek(file, 0x2C, SEEK_SET);
-    fread(&gInputFileBufferSize, 4, 1, file);
-    fseek(file, 0x28, SEEK_SET);
-    fread(&gRamStart, 4, 1, file);
-    fseek(file, 0x20, SEEK_SET);
-    fread(&gRomStart, 4, 1, file);
-    fseek(file, gRomStart, SEEK_SET);
+    if (isFullRom) {
+        fseek(file, 0x2C, SEEK_SET);
+        fread(&gInputFileBufferSize, 4, 1, file);
+        fseek(file, 0x28, SEEK_SET);
+        fread(&gRamStart, 4, 1, file);
+        fseek(file, 0x20, SEEK_SET);
+        fread(&gRomStart, 4, 1, file);
+        fseek(file, gRomStart, SEEK_SET);
+    } else {
+        fseek(file, 0, SEEK_END);
+        gInputFileBufferSize = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        gRomStart = 0;
+        gRamStart = ROM_LOAD_ADDR;
+    }
     gInputFileBuffer = malloc(gInputFileBufferSize);
     if (gInputFileBuffer == NULL)
         fatal_error("failed to alloc file buffer for '%s'", fname);
@@ -203,6 +213,14 @@ int main(int argc, char **argv)
             ROM_LOAD_ADDR = strtoul(argv[i], &end, 0);
             if (*end != 0)
                 fatal_error("invalid integer value for option -l");
+        }
+        else if (strcmp(argv[i], "-t") == 0)
+        {
+            CsInitMode = CS_MODE_THUMB;
+        }
+        else if (strcmp(argv[i], "-m") == 0)
+        {
+            isFullRom = false;
         }
         else
         {
