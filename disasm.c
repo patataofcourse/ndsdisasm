@@ -290,9 +290,6 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
 static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr, uint8_t type)
 {
     static uint32_t jumpTableBegin;
-    // sometimes another instruction (like a mov) can interrupt
-    static bool gracePeriod;
-    static uint32_t poolAddr;
 
     if (type == LABEL_THUMB_CODE) {
         jump_table_state_machine_thumb(insn, addr);
@@ -300,87 +297,53 @@ static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr, 
     }
     switch (sJumpTableState)
     {
-      case 0:
-        // "lsl rX, rX, 2"
-        gracePeriod = false;
-        if (insn->id == ARM_INS_LSL)
+    case 0:
+        if (insn->id == ARM_INS_ADD
+            && insn->detail->arm.operands[0].reg == ARM_REG_PC
+            && insn->detail->arm.operands[2].type == ARM_OP_REG
+            && insn->detail->arm.operands[2].shift.type == ARM_SFT_LSL
+            && insn->detail->arm.operands[2].shift.value == 2)
             goto match;
         break;
-      case 1:
-        // "ldr rX, [pc, ?]"
-        if (is_pool_load(insn))
-        {
-            poolAddr = get_pool_load(insn, addr, LABEL_THUMB_CODE);
-            jumpTableBegin = word_at(poolAddr);
-            goto match;
-        }
-        break;
-      case 2:
-        // "add rX, rX, rX"
-        if (insn->id == ARM_INS_ADD)
-            goto match;
-        break;
-      case 3:
-        // "ldr rX, [rX]"
-        if (insn->id == ARM_INS_LDR)
-            goto match;
-        break;
-      case 4:
-        // "mov pc, rX"
-        if (insn->id == ARM_INS_MOV
-         && insn->detail->arm.operands[0].type == ARM_OP_REG
-         && insn->detail->arm.operands[0].reg == ARM_REG_PC)
+    case 1:
+        if ((insn->id == ARM_INS_B && insn->detail->arm.cc == ARM_CC_AL) || is_func_return(insn))
             goto match;
         break;
     }
-
-    // didn't match
-    if (gracePeriod)
-        sJumpTableState = 0;
-    else
-        gracePeriod = true;
+    sJumpTableState = 0;
     return;
-
-  match:
-    if (sJumpTableState == 4)  // all checks passed
+match:
+    if (sJumpTableState == 1)
     {
         uint32_t target;
-        uint32_t firstTarget = -1u;
-
-        // jump table is not in ROM, indicating it's from a library loaded into RAM
-        if (!(jumpTableBegin & ROM_LOAD_ADDR))
-        {
-            uint32_t offset = poolAddr + 4 - jumpTableBegin;
-
-            disasm_add_label(poolAddr + 4, LABEL_JUMP_TABLE, NULL);
-            addr = poolAddr + 4; // start of jump table
-            while (addr < word_at(poolAddr + 4) + offset)
-            {
-                int label;
-
-                label = disasm_add_label(word_at(addr) + offset, LABEL_THUMB_CODE, NULL);
-                gLabels[label].branchType = BRANCH_TYPE_B;
-                addr += 4;
-            }
-            return;
-        }
-
-        disasm_add_label(jumpTableBegin, LABEL_JUMP_TABLE, NULL);
+        uint32_t firstTarget = is_branch(insn) ? get_branch_target(insn) : -1u;
+        int lbl;
+        jumpTableBegin = addr + 4;
         sJumpTableState = 0;
         // add code labels from jump table
         addr = jumpTableBegin;
+        int i = 0;
         while (addr < firstTarget)
         {
             int label;
-
-            target = word_at(addr);
-            if (target - ROM_LOAD_ADDR >= 0x02000000)
-                break;
-            if (target < firstTarget && target > jumpTableBegin)
-                firstTarget = target;
-            label = disasm_add_label(target, LABEL_THUMB_CODE, NULL);
-            gLabels[label].branchType = BRANCH_TYPE_B;
+            if (insn[i + 1].id == ARM_INS_B)
+            {
+                target = get_branch_target(&insn[i + 1]);
+                if (target - ROM_LOAD_ADDR >= 0x02000000)
+                {
+                    break;
+                }
+                if (target < firstTarget && target > jumpTableBegin)
+                {
+                    firstTarget = target;
+                }
+                label = disasm_add_label(target, LABEL_ARM_CODE, NULL);
+                gLabels[label].branchType = BRANCH_TYPE_B;
+            }
+            lbl = disasm_add_label(addr, LABEL_ARM_CODE, NULL);
+            gLabels[lbl].branchType = BRANCH_TYPE_B;
             addr += 4;
+            i++;
         }
 
         return;
@@ -518,7 +481,10 @@ static void analyze(void)
                                 {
                                     const struct Label *next;
 
-                                    lbl = disasm_add_label(target, type, NULL);
+                                    uint8_t newtype = type;
+                                    if (insn[i].id == ARM_INS_BLX)
+                                        newtype = type == LABEL_THUMB_CODE ? LABEL_ARM_CODE : LABEL_THUMB_CODE;
+                                    lbl = disasm_add_label(target, newtype, NULL);
                                     if (gLabels[lbl].branchType != BRANCH_TYPE_B)
                                         gLabels[lbl].branchType = BRANCH_TYPE_BL;
                                     if (insn[i].id != ARM_INS_BLX)
