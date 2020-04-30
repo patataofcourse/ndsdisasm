@@ -154,7 +154,7 @@ static bool is_func_return(const struct cs_insn *insn)
     if (insn->id == ARM_INS_MOV
      && arminsn->operands[0].type == ARM_OP_REG
      && arminsn->operands[0].reg == ARM_REG_PC)
-        return true;
+        return arminsn->cc == ARM_CC_AL;
     // 'pop' with pc in the register list
     if (insn->id == ARM_INS_POP)
     {
@@ -165,7 +165,7 @@ static bool is_func_return(const struct cs_insn *insn)
         {
             if (arminsn->operands[i].type == ARM_OP_REG
              && arminsn->operands[i].reg == ARM_REG_PC)
-                return true;
+                return arminsn->cc == ARM_CC_AL;
         }
     }
     return false;
@@ -521,14 +521,17 @@ static void analyze(void)
                                     lbl = disasm_add_label(target, type, NULL);
                                     if (gLabels[lbl].branchType != BRANCH_TYPE_B)
                                         gLabels[lbl].branchType = BRANCH_TYPE_BL;
-                                    // if the address right after is a pool, then we know
-                                    // for sure that this is a far jump and not a function call
-                                    if (((next = lookup_label(addr)) != NULL && next->type == LABEL_POOL)
-                                    // if the 2 bytes following are zero, assume it's padding
-                                     || hword_at(addr) == 0)
+                                    if (insn[i].id != ARM_INS_BLX)
                                     {
-                                        gLabels[lbl].branchType = BRANCH_TYPE_B;
-                                        break;
+                                        // if the address right after is a pool, then we know
+                                        // for sure that this is a far jump and not a function call
+                                        if (((next = lookup_label(addr)) != NULL && next->type == LABEL_POOL)
+                                            // if the 2 bytes following are zero, assume it's padding
+                                            || (type == LABEL_THUMB_CODE && ((addr & 3) != 0) && hword_at(addr) == 0))
+                                        {
+                                            gLabels[lbl].branchType = BRANCH_TYPE_B;
+                                            break;
+                                        }
                                     }
                                 }
                                 else
