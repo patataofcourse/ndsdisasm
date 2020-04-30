@@ -482,7 +482,11 @@ static void analyze(void)
 
                                     uint8_t newtype = type;
                                     if (insn[i].id == ARM_INS_BLX)
+                                    {
                                         newtype = type == LABEL_THUMB_CODE ? LABEL_ARM_CODE : LABEL_THUMB_CODE;
+                                        if (insn[i].detail->arm.operands[0].type == ARM_OP_REG)
+                                            goto blx_rX;
+                                    }
                                     lbl = disasm_add_label(target, newtype, NULL);
                                     if (gLabels[lbl].branchType != BRANCH_TYPE_B)
                                         gLabels[lbl].branchType = BRANCH_TYPE_BL;
@@ -509,7 +513,7 @@ static void analyze(void)
                                 }
                             }
                         }
-
+                        blx_rX:
                         // unconditional jump and not a function call
                         if (insn[i].detail->arm.cc == ARM_CC_AL && insn[i].id != ARM_INS_BL && insn[i].id != ARM_INS_BLX)
                             break;
@@ -667,7 +671,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
     }
     else
     {
-        if (is_branch(insn) && insn->id != ARM_INS_BX)
+        if (is_branch(insn) && insn->detail->arm.operands[0].type != ARM_OP_REG)
         {
             uint32_t target = get_branch_target(insn);
             struct Label *label = lookup_label(target);
