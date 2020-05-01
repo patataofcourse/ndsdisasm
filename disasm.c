@@ -10,6 +10,8 @@
 
 extern void fatal_error(const char *fmt, ...);
 
+#define min(x, y) ((x) < (y) ? (x) : (y))
+
 uint32_t ROM_LOAD_ADDR;
 #define UNKNOWN_SIZE (uint32_t)-1
 int CsInitMode = CS_MODE_ARM;
@@ -406,7 +408,8 @@ static void analyze(void)
             //fprintf(stderr, "analyzing label at 0x%08X\n", addr);
             do
             {
-                count = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 0x1000, addr, 0, &insn);
+                uint32_t offset = addr - ROM_LOAD_ADDR;
+                count = cs_disasm(sCapstone, gInputFileBuffer + offset, min(0x1000, gInputFileBufferSize - offset), addr, 0, &insn);
                 for (i = 0; i < count; i++)
                 {
                   no_inc:
