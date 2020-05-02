@@ -277,6 +277,8 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
             target = hword_at(addr) + jumpTableBegin + 2;
             if (target - ROM_LOAD_ADDR >= 0x02000000)
                 break;
+            if (target & 1)
+                break;
             if (target < firstTarget && target > jumpTableBegin)
                 firstTarget = target;
             label = disasm_add_label(target, LABEL_THUMB_CODE, NULL);
