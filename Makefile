@@ -16,13 +16,15 @@ PROGRAM := ndsdisasm
 SOURCES := main.c disasm.c
 LIBS := $(CAPSTONE_LIB)
 
+MAKEFLAGS += --no-print-dir
+
 # Compile the program
 $(PROGRAM): $(SOURCES) $(CAPSTONE_LIB)
 	$(CC) $(CFLAGS) $^ -o $@
 
 # Build libcapstone
 $(CAPSTONE_LIB): $(CAPSTONE_DIR)
-	make -C $(CAPSTONE_DIR) CAPSTONE_STATIC=yes CAPSTONE_SHARED=no CAPSTONE_ARCHS="arm"
+	@$(MAKE) -C $(CAPSTONE_DIR) CAPSTONE_STATIC=yes CAPSTONE_SHARED=no CAPSTONE_ARCHS="arm" CAPSTONE_BUILD_CORE_ONLY=yes
 
 # Extract the archive
 $(CAPSTONE_DIR): $(CAPSTONE_ARCHIVE)
@@ -30,6 +32,7 @@ $(CAPSTONE_DIR): $(CAPSTONE_ARCHIVE)
 
 clean:
 	$(RM) $(PROGRAM) $(PROGRAM).exe
+	@$(MAKE) -C $(CAPSTONE_DIR) clean
 
 distclean: clean
 	rm -rf $(CAPSTONE_DIR)
