@@ -6,3 +6,5 @@ capstone-3.0.5-rc2
 *.gba
 .fuse_hidden*
 *.nds
+.idea/
+cmake-build-debug cmake-build-debug-system
