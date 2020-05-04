@@ -4,7 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#if CAPSTONE_VERMAJ < 4
 #include <capstone.h>
+#else
+#include <capstone/capstone.h>
+#endif //CAPSTONE_VERMAJ
 
 #include "ndsdisasm.h"
 

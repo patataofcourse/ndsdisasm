@@ -4,7 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if CAPSTONE_VERMAJ < 4
 #include <capstone.h>
+#else
+#include <capstone/capstone.h>
+#endif //CAPSTONE_VERMAJ
 
 #include "ndsdisasm.h"
 
@@ -1086,7 +1090,7 @@ void disasm_disassemble(void)
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
 
     // entry point
-    disasm_add_label(ROM_LOAD_ADDR, CsInitMode == CS_MODE_ARM ? LABEL_ARM_CODE : LABEL_THUMB_CODE, NULL);
+    // disasm_add_label(ROM_LOAD_ADDR, CsInitMode == CS_MODE_ARM ? LABEL_ARM_CODE : LABEL_THUMB_CODE, NULL);
 
     // rom header
     //disasm_add_label(ROM_LOAD_ADDR + 4, LABEL_DATA, NULL);
