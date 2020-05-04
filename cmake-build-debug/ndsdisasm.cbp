@@ -1,0 +1,1770 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ndsdisasm"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\capstone-3.0.5-rc2\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndsdisasm">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/ndsdisasm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndsdisasm"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ndsdisasm/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/ndsdisasm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 ndsdisasm/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cstool">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/cstool" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 cstool"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cstool/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/cstool" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 cstool/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm_regression">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm_regression" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm_regression"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm_regression/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm_regression" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm_regression/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_xcore">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_xcore" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_xcore"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_xcore/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_xcore" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_xcore/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_systemz">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_systemz" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_systemz"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_systemz/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_systemz" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_systemz/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm64">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm64" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm64"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_arm64/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_arm64" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_arm64/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_iter">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_iter" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_iter"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_iter/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_iter" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_iter/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_detail">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_detail" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_detail"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_detail/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_detail" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_detail/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_x86">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_x86" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_x86"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_x86/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_x86" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_x86/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_sparc">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_sparc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_sparc"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_sparc/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_sparc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_sparc/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_ppc">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_ppc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_ppc"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_ppc/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_ppc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_ppc/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_skipdata">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_skipdata" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_skipdata"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_skipdata/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_skipdata" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_skipdata/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="capstone-shared">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/libcapstone.dylib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 capstone-shared"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="capstone-shared/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/libcapstone.dylib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 capstone-shared/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_mips">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_mips" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_mips"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_mips/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/test_mips" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 test_mips/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="capstone-static">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/libcapstone.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 capstone-static"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="capstone-static/fast">
+				<Option output="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/libcapstone.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCAPSTONE_USE_SYS_DYN_MEM"/>
+					<Add option="-DCAPSTONE_HAS_ARM"/>
+					<Add option="-DCAPSTONE_HAS_ARM64"/>
+					<Add option="-DCAPSTONE_HAS_MIPS"/>
+					<Add option="-DCAPSTONE_HAS_POWERPC"/>
+					<Add option="-DCAPSTONE_HAS_X86"/>
+					<Add option="-DCAPSTONE_HAS_SPARC"/>
+					<Add option="-DCAPSTONE_HAS_SYSZ"/>
+					<Add option="-DCAPSTONE_HAS_XCORE"/>
+					<Add directory="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/x86_64-apple-darwin19"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/../../../../../../include/c++/9.3.0/backward"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include"/>
+					<Add directory="/usr/local/Cellar/gcc/9.3.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.3.0/include-fixed"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 capstone-static/fast"/>
+					<CompileFile command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/local/bin/gmake -j8 -f &quot;/Users/ssn33/CLionProjects/ndsdisasm/cmake-build-debug/capstone-3.0.5-rc2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCInst.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCInst.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCInstrDesc.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCInstrDesc.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCRegisterInfo.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/MCRegisterInfo.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/SStream.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/SStream.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64AddressingModes.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64BaseInfo.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64BaseInfo.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64Disassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64Disassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64GenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64GenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64GenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64GenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64GenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64InstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64InstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64Mapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64Mapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/AArch64/AArch64Module.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMAddressingModes.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMBaseInfo.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMGenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/ARM/ARMModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsGenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Mips/MipsModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCGenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/PowerPC/PPCPredicates.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/Sparc.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcGenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/Sparc/SparcModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZGenSubtargetInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZMCTargetDesc.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZMCTargetDesc.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/SystemZ/SystemZModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86ATTInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86BaseInfo.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86Disassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86Disassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86DisassemblerDecoder.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86DisassemblerDecoder.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86DisassemblerDecoderCommon.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenAsmWriter1.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenAsmWriter1_reduce.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenAsmWriter_reduce.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenDisassemblerTables_reduce.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenInstrInfo_reduce.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86GenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86InstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86IntelInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86Mapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86Mapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/X86/X86Module.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreDisassembler.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreDisassembler.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreGenAsmWriter.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreGenDisassemblerTables.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreGenInstrInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreGenRegisterInfo.inc">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreInstPrinter.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreInstPrinter.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreMapping.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreMapping.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/arch/XCore/XCoreModule.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cs.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cs_priv.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_arm.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_arm64.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_mips.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_ppc.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_sparc.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_systemz.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_x86.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/cstool/cstool_xcore.c">
+			<Option target="cstool"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/arm.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/arm64.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/capstone.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/mips.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/platform.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/ppc.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/sparc.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/systemz.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/x86.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/include/xcore.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/suite/arm/test_arm_regression.c">
+			<Option target="test_arm_regression"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test.c">
+			<Option target="test"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_arm.c">
+			<Option target="test_arm"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_arm64.c">
+			<Option target="test_arm64"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_detail.c">
+			<Option target="test_detail"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_iter.c">
+			<Option target="test_iter"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_mips.c">
+			<Option target="test_mips"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_ppc.c">
+			<Option target="test_ppc"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_skipdata.c">
+			<Option target="test_skipdata"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_sparc.c">
+			<Option target="test_sparc"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_systemz.c">
+			<Option target="test_systemz"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_x86.c">
+			<Option target="test_x86"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/tests/test_xcore.c">
+			<Option target="test_xcore"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/utils.c">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/utils.h">
+			<Option target="capstone-shared"/>
+			<Option target="capstone-static"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/disasm.c">
+			<Option target="ndsdisasm"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/main.c">
+			<Option target="ndsdisasm"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/ssn33/CLionProjects/ndsdisasm/capstone-3.0.5-rc2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\capstone-3.0.5-rc2\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

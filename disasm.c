@@ -214,7 +214,6 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
     // sometimes another instruction (like a mov) can interrupt
     static bool gracePeriod;
     static bool isBx;
-    static int numCases;
 
     switch (sJumpTableState)
     {
@@ -264,7 +263,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
         }
         break;
     case 6:
-        if (insn->id == ARM_INS_BX)
+        if (is_func_return(insn))
         {
             isBx = true;
             goto match;
@@ -283,9 +282,9 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
     {
         uint32_t target;
         uint32_t firstTarget = -1u;
-        int i, j;
+        int i;
 
-        numCases = -1;
+        int numCases = -1;
         for (i = 1; i < sJumpTableInsnIdx; i++) {
             if (insn[-i].id == ARM_INS_CMP) {
                 numCases = insn[-i].detail->arm.operands[1].imm + 1;
@@ -294,7 +293,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
         }
         i = 0;
         assert(jumpTableBegin & ROM_LOAD_ADDR);
-        int lbl = disasm_add_label(jumpTableBegin, isBx ? LABEL_JUMP_TABLE_THUMB_BX : LABEL_JUMP_TABLE_THUMB, NULL);
+        disasm_add_label(jumpTableBegin, isBx ? LABEL_JUMP_TABLE_THUMB_BX : LABEL_JUMP_TABLE_THUMB, NULL);
         sJumpTableState = 0;
         // add code labels from jump table
         addr = jumpTableBegin;
@@ -308,7 +307,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
             if (!isBx && (target & 1))
                 break;
             if (target < firstTarget && target > jumpTableBegin)
-                firstTarget = target;
+                firstTarget = target & ~1;
             label = disasm_add_label(target & ~1, (!isBx || (target & 3)) ? LABEL_THUMB_CODE : LABEL_ARM_CODE, NULL);
             gLabels[label].branchType = BRANCH_TYPE_B;
             addr += 2;
@@ -349,15 +348,23 @@ match:
     if (sJumpTableState == 1)
     {
         uint32_t target;
-        uint32_t firstTarget = is_branch(insn) ? get_branch_target(insn) : -1u;
-        int lbl;
+        uint32_t firstTarget = (is_branch(insn) && !is_func_return(insn)) ? get_branch_target(insn) : -1u;
+        if (firstTarget < addr) firstTarget = -1u;
+        int i;
         jumpTableBegin = addr + 4;
         sJumpTableState = 0;
         // add code labels from jump table
         addr = jumpTableBegin;
-        int i = 0;
-        lbl = disasm_add_label(addr, LABEL_JUMP_TABLE, NULL);
-        while (addr < firstTarget)
+        int numCases = -1;
+        for (i = 1; i < sJumpTableInsnIdx; i++) {
+            if (insn[-i].id == ARM_INS_CMP) {
+                numCases = insn[-i].detail->arm.operands[1].imm + 1;
+                break;
+            }
+        }
+        i = 0;
+        disasm_add_label(addr, LABEL_JUMP_TABLE, NULL);
+        while (addr < firstTarget && (numCases < 0 || i < numCases))
         {
             int label;
             if (insn[i + 1].id == ARM_INS_B)
