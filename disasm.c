@@ -658,13 +658,8 @@ static void analyze(void)
 
 // Disassembly Output
 
-static void print_gap(uint32_t addr, uint32_t nextaddr)
+static uint32_t print_align(uint32_t addr)
 {
-    if (addr == nextaddr)
-        return;
-
-    assert(addr < nextaddr);
-
     if ((addr & 3) == 2) {
         uint16_t next_short = hword_at(addr);
         if (next_short == 0) {
@@ -674,10 +669,16 @@ static void print_gap(uint32_t addr, uint32_t nextaddr)
             fputs("\tnop\n", stdout);
             addr += 2;
         }
-        if (addr == nextaddr) {
-            return;
-        }
     }
+    return addr;
+}
+
+static void print_gap(uint32_t addr, uint32_t nextaddr)
+{
+    if (addr == nextaddr)
+        return;
+
+    assert(addr < nextaddr);
 
     printf("_%08X:\n", addr);
     if (addr % gOptionDataColumnWidth != 0)
@@ -865,6 +866,9 @@ static void print_disassembly(void)
 {
     //uint32_t addr = ROM_LOAD_ADDR;
     int i = 0;
+    char last_name[256];
+    enum LabelType last_label = LABEL_DATA;
+    uint32_t endaddr = -1u;
 
     qsort(gLabels, gLabelsCount, sizeof(*gLabels), qsort_label_compare);
     uint32_t addr = gLabels[0].addr;
@@ -915,20 +919,15 @@ static void print_disassembly(void)
                         fprintf(stderr, "error: function at 0x%08X is not aligned\n", addr);
                         return;
                     }
+                    last_label = gLabels[i].type;
                     if (gLabels[i].name != NULL)
-                    {
-                        printf("\n\t%s %s\n",
-                          (gLabels[i].type == LABEL_ARM_CODE) ? "arm_func_start" : (addr & 2 ? "non_word_aligned_thumb_func_start" : "thumb_func_start"),
-                          gLabels[i].name);
-                        printf("%s: @ 0x%08X\n", gLabels[i].name, addr);
-                    }
+                        strcpy(last_name, gLabels[i].name);
                     else
-                    {
-                        printf("\n\t%s FUN_%08X\n",
-                          (gLabels[i].type == LABEL_ARM_CODE) ? "arm_func_start" : (addr & 2 ? "non_word_aligned_thumb_func_start" : "thumb_func_start"),
-                          addr);
-                        printf("FUN_%08X: @ 0x%08X\n", addr, addr);
-                    }
+                        sprintf(last_name, "FUN_%08X", addr);
+                    printf("\n\t%s %s\n",
+                           (last_label == LABEL_ARM_CODE) ? "arm_func_start" : (addr & 2 ? "non_word_aligned_thumb_func_start" : "thumb_func_start"),
+                           last_name);
+                    printf("%s: @ 0x%08X\n", last_name, addr);
                 }
                 // Just a normal code label. Use the '_XXXXXXXX' label
                 else
@@ -1066,17 +1065,32 @@ static void print_disassembly(void)
             }
             break;
         }
+        endaddr = addr = print_align(addr);
 
         i++;
         if (i >= gLabelsCount)
+        {
+            // This is a function end
+            printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
             break;
+        }
+
         nextAddr = gLabels[i].addr;
         assert(addr <= nextAddr);
+
+        if (last_label != LABEL_DATA
+         && (gLabels[i].type == LABEL_THUMB_CODE || gLabels[i].type == LABEL_ARM_CODE)
+         && gLabels[i].branchType == BRANCH_TYPE_BL)
+        {
+            // This is a function end
+            printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
+        }
 
         if (nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize) // prevent out-of-bound read
             print_gap(addr, nextAddr);
         addr = nextAddr;
     }
+    printf("\t@ 0x%08X\n", endaddr);
 }
 
 void disasm_disassemble(void)
