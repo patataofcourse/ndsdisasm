@@ -10,6 +10,11 @@
 #include <capstone/capstone.h>
 #endif //CAPSTONE_VERMAJ
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
+
 #include "ndsdisasm.h"
 
 struct ConfigLabel
@@ -197,6 +202,8 @@ int main(int argc, char **argv)
     // Work around MinGW bug that prevents us from seeing the assert message
     setvbuf(stdout, NULL, _IONBF, 0);
     setvbuf(stderr, NULL, _IONBF, 0);
+    _setmode(_fileno(stdout), _O_BINARY);
+    _setmode(_fileno(stderr), _O_BINARY);
 #endif
 
     for (i = 1; i < argc; i++)
