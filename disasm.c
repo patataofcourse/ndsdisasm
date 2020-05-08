@@ -54,6 +54,8 @@ int disasm_add_label(uint32_t addr, uint8_t type, char *name)
     //printf("adding label 0x%08X\n", addr);
     // Search for label
     //assert(addr >= ROM_LOAD_ADDR && addr < ROM_LOAD_ADDR + gInputFileBufferSize);
+    if ((type == LABEL_ARM_CODE && (addr & 3)) || (type == LABEL_THUMB_CODE && (addr & 1)))
+        fatal_error("Label at 0x%08x is misaligned.\n", addr);
     for (i = 0; i < gLabelsCount; i++)
     {
         if (gLabels[i].addr == addr)
@@ -511,6 +513,9 @@ static void analyze(void)
                         }
 
                         if (insn[i].id == ARM_INS_BX) // BX{COND} when COND != AL
+                            continue;
+
+                        if (insn[i].id == ARM_INS_BLX && insn[i].detail->arm.operands[0].type == ARM_OP_REG)
                             continue;
 
                         target = get_branch_target(&insn[i]);
