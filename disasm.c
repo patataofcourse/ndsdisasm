@@ -50,7 +50,7 @@ const int gOptionDataColumnWidth = 16;
 int disasm_add_label(uint32_t addr, uint8_t type, char *name)
 {
     int i;
-    if(addr < gRamStart) return 0;
+    // if(addr < gRamStart) return 0;
     //printf("adding label 0x%08X\n", addr);
     // Search for label
     //assert(addr >= ROM_LOAD_ADDR && addr < ROM_LOAD_ADDR + gInputFileBufferSize);
@@ -86,7 +86,7 @@ int disasm_add_label(uint32_t addr, uint8_t type, char *name)
     gLabels[i].name = name;
     gLabels[i].isFunc = false;
 
-    if((addr - ROM_LOAD_ADDR) > gInputFileBufferSize)
+    if((unsigned)(addr - ROM_LOAD_ADDR) > gInputFileBufferSize)
     {
         gLabels[i].processed = true;
     }
@@ -446,6 +446,11 @@ static void analyze(void)
             return;
         addr = gLabels[li].addr;
         type = gLabels[li].type;
+        if (addr < ROM_LOAD_ADDR || addr >= ROM_LOAD_ADDR + gInputFileBufferSize)
+        {
+            gLabels[li].processed = true;
+            continue;
+        }
 
         if (type == LABEL_ARM_CODE || type == LABEL_THUMB_CODE)
         {
@@ -496,6 +501,25 @@ static void analyze(void)
                         if (is_func_return(&insn[i]))
                         {
                             struct Label *label_p;
+
+                            if (insn[i].id == ARM_INS_BX && insn[i].detail->arm.operands[0].reg == ARM_REG_R3)
+                            {
+                                for (int j = i - 1; j >= 0; j--)
+                                {
+                                    if (is_pool_load(&insn[j]) && insn[j].detail->arm.operands[0].reg == ARM_REG_R3)
+                                    {
+                                        // Tail call
+                                        uint32_t pool_target = word_at(get_pool_load(&insn[j], insn[j].address, type));
+                                        int added = disasm_add_label(
+                                            pool_target & ~1,
+                                            pool_target & 3 ? LABEL_THUMB_CODE : LABEL_ARM_CODE,
+                                            NULL
+                                        );
+                                        gLabels[added].isFunc = true;
+                                        break;
+                                    }
+                                }
+                            }
 
                             // It's possible that handwritten code with different mode follows. 
                             // However, this only causes problem when the address following is
@@ -749,7 +773,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
             uint32_t value = word_at(word);
             const struct Label *label_p;
 
-            if (value & 3 && value & ROM_LOAD_ADDR) // possibly thumb function
+            if (value & 3 && (value & ROM_LOAD_ADDR & 0x0F000000) == (ROM_LOAD_ADDR & 0x0F000000)) // possibly thumb function
             {
                 if (label_p = lookup_label(value & ~1), label_p != NULL)
                 {
@@ -895,6 +919,12 @@ static void print_disassembly(void)
     while (addr < ROM_LOAD_ADDR + gInputFileBufferSize)
     {
         uint32_t nextAddr;
+        if (gLabels[i].addr < ROM_LOAD_ADDR)
+        {
+            goto next;
+        }
+        if (gLabels[i].addr >= ROM_LOAD_ADDR + gInputFileBufferSize)
+            break;
 
         // TODO: compute actual size during analysis phase
         if (i + 1 < gLabelsCount)
@@ -902,6 +932,8 @@ static void print_disassembly(void)
             if (gLabels[i].size == UNKNOWN_SIZE
              || gLabels[i].addr + gLabels[i].size > gLabels[i + 1].addr)
                 gLabels[i].size = gLabels[i + 1].addr - gLabels[i].addr;
+            if (gLabels[i].addr + gLabels[i].size >= ROM_LOAD_ADDR + gInputFileBufferSize)
+                break;
         }
 
         switch (gLabels[i].type)
@@ -997,7 +1029,7 @@ static void print_disassembly(void)
                 uint32_t value = word_at(addr);
                 const struct Label *label_p;
 
-                if (value & 3 && value & ROM_LOAD_ADDR) // possibly thumb function
+                if (value & 3 && (value & ROM_LOAD_ADDR & 0x0F000000) == (ROM_LOAD_ADDR & 0x0F000000)) // possibly thumb function
                 {
                     if (label_p = lookup_label(value & ~1), label_p != NULL)
                     {
@@ -1071,7 +1103,7 @@ static void print_disassembly(void)
             break;
         }
         endaddr = addr = print_align(addr);
-
+    next:
         i++;
         if (i >= gLabelsCount)
         {
@@ -1091,7 +1123,7 @@ static void print_disassembly(void)
             printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
         }
 
-        if (nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize) // prevent out-of-bound read
+        if (addr >= ROM_LOAD_ADDR && nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize) // prevent out-of-bound read
             print_gap(addr, nextAddr);
         addr = nextAddr;
     }
