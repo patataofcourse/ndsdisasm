@@ -27,6 +27,22 @@ enum BranchType
     BRANCH_TYPE_BL,
 };
 
+const char * gBranchTypeNames[] = {
+    "BRANCH_TYPE_UNKNOWN",
+    "BRANCH_TYPE_B",
+    "BRANCH_TYPE_BL",
+};
+
+const char * gLabelTypeNames[] = {
+    "LABEL_ARM_CODE",
+    "LABEL_THUMB_CODE",
+    "LABEL_DATA",
+    "LABEL_POOL",
+    "LABEL_JUMP_TABLE",
+    "LABEL_JUMP_TABLE_THUMB",
+    "LABEL_JUMP_TABLE_THUMB_BX",
+};
+
 struct Label
 {
     uint32_t addr;
@@ -289,6 +305,12 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
         uint32_t target;
         uint32_t firstTarget = -1u;
         int i;
+
+        for (i = 0; i < gLabelsCount; i++)
+        {
+            if (gLabels[i].addr > jumpTableBegin && gLabels[i].addr < firstTarget)
+                firstTarget = gLabels[i].addr;
+        }
 
         int numCases = -1;
         for (i = 1; i < sJumpTableInsnIdx; i++) {
@@ -887,12 +909,13 @@ static void print_disassembly(void)
 {
     //uint32_t addr = ROM_LOAD_ADDR;
     int i = 0;
+    int li;
     char last_name[256];
     enum LabelType last_label = LABEL_DATA;
     uint32_t endaddr = -1u;
 
     qsort(gLabels, gLabelsCount, sizeof(*gLabels), qsort_label_compare);
-    uint32_t addr = gLabels[0].addr;
+    uint32_t addr = gLabels[0].addr, lastAddr = addr;
 
     for (i = 0; i < gLabelsCount - 1; i++)
         assert(gLabels[i].addr < gLabels[i + 1].addr);
@@ -910,6 +933,7 @@ static void print_disassembly(void)
     i = 0;
     while (addr < ROM_LOAD_ADDR + gInputFileBufferSize)
     {
+        li = i;
         uint32_t nextAddr;
         if (gLabels[i].addr < ROM_LOAD_ADDR)
         {
@@ -1107,13 +1131,15 @@ static void print_disassembly(void)
         nextAddr = gLabels[i].addr;
         // assert(addr <= nextAddr);
         while (addr > nextAddr) {
-            fprintf(stderr, "Warning: label at 0x%08X is inside function at 0x%08X\n", nextAddr, addr);
+            fprintf(stderr, "Warning: label at 0x%08X is inside function at 0x%08X\n"
+                            "(trying to insert %s into %s)\n", nextAddr, lastAddr, gLabelTypeNames[gLabels[i].type], gLabelTypeNames[gLabels[li].type]);
             ++i;
             if (i == gLabelsCount)
                 break;
             nextAddr = gLabels[i].addr;
         }
         assert(i != gLabelsCount);
+        lastAddr = nextAddr;
 
         if (last_label != LABEL_DATA
          && (gLabels[i].type == LABEL_THUMB_CODE || gLabels[i].type == LABEL_ARM_CODE)
