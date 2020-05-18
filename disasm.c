@@ -549,7 +549,10 @@ static void analyze(void)
                         //if (!(target >= gLabels[li].addr && target <= currAddr))
                         if (1)
                         {
-                            int lbl = disasm_add_label(target, type, NULL);
+                            uint8_t newtype = type;
+                            if (insn[i].id == ARM_INS_BLX)
+                                newtype = type == LABEL_THUMB_CODE ? LABEL_ARM_CODE : LABEL_THUMB_CODE;
+                            int lbl = disasm_add_label(target, newtype, NULL);
 
                             if (!gLabels[lbl].isFunc) // do nothing if it's 100% a func (from func ptr, or instant mode exchange)
                             {
@@ -557,14 +560,6 @@ static void analyze(void)
                                 {
                                     const struct Label *next;
 
-                                    uint8_t newtype = type;
-                                    if (insn[i].id == ARM_INS_BLX)
-                                    {
-                                        newtype = type == LABEL_THUMB_CODE ? LABEL_ARM_CODE : LABEL_THUMB_CODE;
-                                        if (insn[i].detail->arm.operands[0].type == ARM_OP_REG)
-                                            goto blx_rX;
-                                    }
-                                    lbl = disasm_add_label(target, newtype, NULL);
                                     if (gLabels[lbl].branchType != BRANCH_TYPE_B)
                                         gLabels[lbl].branchType = BRANCH_TYPE_BL;
                                     if (insn[i].id != ARM_INS_BLX)
@@ -590,7 +585,6 @@ static void analyze(void)
                                 }
                             }
                         }
-                        blx_rX:
                         // unconditional jump and not a function call
                         if (insn[i].detail->arm.cc == ARM_CC_AL && insn[i].id != ARM_INS_BL && insn[i].id != ARM_INS_BLX)
                             break;
@@ -754,9 +748,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
             uint32_t target = get_branch_target(insn);
             struct Label *label = lookup_label(target);
 
-            if (isFullRom)
-                assert(label != NULL);  // We should have found this label in the analysis phase
-            else if (label == NULL) {
+            if (label == NULL) {
                 DummyLabel.addr = target;
                 DummyLabel.name = NULL;
                 DummyLabel.branchType = BRANCH_TYPE_BL;
@@ -1113,7 +1105,15 @@ static void print_disassembly(void)
         }
 
         nextAddr = gLabels[i].addr;
-        assert(addr <= nextAddr);
+        // assert(addr <= nextAddr);
+        while (addr > nextAddr) {
+            fprintf(stderr, "Warning: label at 0x%08X is inside function at 0x%08X\n", nextAddr, addr);
+            ++i;
+            if (i == gLabelsCount)
+                break;
+            nextAddr = gLabels[i].addr;
+        }
+        assert(i != gLabelsCount);
 
         if (last_label != LABEL_DATA
          && (gLabels[i].type == LABEL_THUMB_CODE || gLabels[i].type == LABEL_ARM_CODE)

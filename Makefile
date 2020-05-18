@@ -10,7 +10,7 @@ endif
 
 CAPSTONE_DIR := capstone-$(CAPSTONE_VERSION)
 CAPSTONE_ARCHIVE := $(CAPSTONE_DIR).tar.gz
-CAPSTONE_LIB := $(CAPSTONE_DIR)/libcapstone.a
+CAPSTONE_LIB := -L$(CAPSTONE_DIR) -lcapstone
 
 DEBUG ?= 0
 
