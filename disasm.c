@@ -314,7 +314,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
 
         int numCases = -1;
         for (i = 1; i < sJumpTableInsnIdx; i++) {
-            if (insn[-i].id == ARM_INS_CMP) {
+            if (insn[-i].id == ARM_INS_CMP && insn[-i].detail->arm.operands[1].type == ARM_OP_IMM && insn[-i].detail->arm.operands[1].imm > 0) {
                 numCases = insn[-i].detail->arm.operands[1].imm + 1;
                 break;
             }
