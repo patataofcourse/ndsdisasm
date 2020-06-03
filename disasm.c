@@ -18,7 +18,6 @@ extern void fatal_error(const char *fmt, ...);
 
 uint32_t ROM_LOAD_ADDR;
 #define UNKNOWN_SIZE (uint32_t)-1
-int CsInitMode = CS_MODE_ARM;
 
 enum BranchType
 {
@@ -46,8 +45,8 @@ const char * gLabelTypeNames[] = {
 struct Label
 {
     uint32_t addr;
-    uint8_t type;
-    uint8_t branchType;
+    enum LabelType type;
+    enum BranchType branchType;
     uint32_t size;
     bool processed;
     bool isFunc; // 100% sure it's a function, which cannot be changed to BRANCH_TYPE_B. 
@@ -63,7 +62,7 @@ static int sJumpTableInsnIdx = 0;
 const bool gOptionShowAddrComments = false;
 const int gOptionDataColumnWidth = 16;
 
-int disasm_add_label(uint32_t addr, uint8_t type, char *name)
+int disasm_add_label(uint32_t addr, enum LabelType type, char *name)
 {
     int i;
     // if(addr < gRamStart) return 0;
@@ -347,7 +346,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
     sJumpTableState++;
 }
 
-static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr, uint8_t type)
+static void jump_table_state_machine(const struct cs_insn *insn, uint32_t addr, enum LabelType type)
 {
     static uint32_t jumpTableBegin;
 
@@ -420,7 +419,7 @@ match:
     sJumpTableState++;
 }
 
-static void renew_or_add_new_func_label(int type, uint32_t word)
+static void renew_or_add_new_func_label(enum LabelType type, uint32_t word)
 {
     if (word & ROM_LOAD_ADDR)
     {
@@ -441,9 +440,9 @@ static void renew_or_add_new_func_label(int type, uint32_t word)
     }
 }
 
-static bool IsValidInstruction(cs_insn * insn, int type)
+static bool IsValidInstruction(cs_insn * insn, enum LabelType type)
 {
-    if (cs_insn_group(sCapstone, insn, ARM_GRP_V5TE))
+    if (cs_insn_group(sCapstone, insn, isArm7 ? ARM_GRP_V4T : ARM_GRP_V5TE))
         return true;
     if (type == LABEL_ARM_CODE) {
         return cs_insn_group(sCapstone, insn, ARM_GRP_ARM);
@@ -459,7 +458,7 @@ static void analyze(void)
         int li;
         int i;
         uint32_t addr;
-        int type;
+        enum LabelType type;
         struct cs_insn *insn;
         const int dismAllocSize = 0x1000;
         int count;
@@ -571,7 +570,7 @@ static void analyze(void)
                         //if (!(target >= gLabels[li].addr && target <= currAddr))
                         if (1)
                         {
-                            uint8_t newtype = type;
+                            enum LabelType newtype = type;
                             if (insn[i].id == ARM_INS_BLX)
                                 newtype = type == LABEL_THUMB_CODE ? LABEL_ARM_CODE : LABEL_THUMB_CODE;
                             int lbl = disasm_add_label(target, newtype, NULL);
@@ -1117,6 +1116,8 @@ static void print_disassembly(void)
                 cs_free(insn, count);
             }
             break;
+        default:
+            fatal_error("unrecognized label type: %d\n", gLabels[i].type);
         }
         endaddr = addr = print_align(addr);
     next:
@@ -1159,7 +1160,7 @@ static void print_disassembly(void)
 void disasm_disassemble(void)
 {
     // initialize capstone
-    if (cs_open(CS_ARCH_ARM, CsInitMode, &sCapstone) != CS_ERR_OK)
+    if (cs_open(CS_ARCH_ARM, CS_MODE_ARM, &sCapstone) != CS_ERR_OK)
     {
         puts("cs_open failed");
         return;

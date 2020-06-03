@@ -15,9 +15,9 @@ extern size_t gInputFileBufferSize;
 extern uint32_t ROM_LOAD_ADDR;
 extern uint32_t gRomStart;
 extern uint32_t gRamStart;
-extern int CsInitMode;
 extern bool isFullRom;
+extern bool isArm7;
 
 // disasm.c
-int disasm_add_label(uint32_t addr, uint8_t type, char *name);
+int disasm_add_label(uint32_t addr, enum LabelType type, char *name);
 void disasm_disassemble(void);

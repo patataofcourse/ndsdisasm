@@ -29,6 +29,8 @@ size_t gInputFileBufferSize;
 uint32_t gRomStart;
 uint32_t gRamStart;
 bool isFullRom = true;
+bool isArm7 = false;
+int ModuleNum = -1;
 
 void fatal_error(const char *fmt, ...)
 {
@@ -49,20 +51,29 @@ static void read_input_file(const char *fname)
     if (file == NULL)
         fatal_error("could not open input file '%s'", fname);
     if (isFullRom) {
-        fseek(file, 0x2C, SEEK_SET);
+        fseek(file, 0x2C + 0x10 * isArm7, SEEK_SET);
         fread(&gInputFileBufferSize, 4, 1, file);
-        fseek(file, 0x28, SEEK_SET);
+        fseek(file, 0x28 + 0x10 * isArm7, SEEK_SET);
         fread(&gRamStart, 4, 1, file);
-        fseek(file, 0x20, SEEK_SET);
+        fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
-        fseek(file, gRomStart, SEEK_SET);
     } else {
-        fseek(file, 0, SEEK_END);
-        gInputFileBufferSize = ftell(file);
-        fseek(file, 0, SEEK_SET);
-        gRomStart = 0;
-        gRamStart = ROM_LOAD_ADDR;
+        uint32_t fat_offset, fat_size, ovy_offset, ovy_size;
+        fseek(file, 0x48, SEEK_SET);
+        fread(&fat_offset, 4, 1, file);
+        fread(&fat_size, 4, 1, file);
+        fseek(file, 0x50 + 8 * isArm7, SEEK_SET);
+        fread(&ovy_offset, 4, 1, file);
+        fread(&ovy_size, 4, 1, file);
+        if (ModuleNum * 32u > ovy_size)
+            fatal_error("Argument to -m is out of range\n");
+        fseek(file, ovy_offset + ModuleNum * 32 + 4, SEEK_SET);
+        fread(&gRamStart, 4, 1, file);
+        fread(&gInputFileBufferSize, 4, 1, file);
+        fseek(file, fat_offset + ModuleNum * 8, SEEK_SET);
+        fread(&gRomStart, 4, 1, file);
     }
+    fseek(file, gRomStart, SEEK_SET);
     gInputFileBuffer = malloc(gInputFileBufferSize);
     if (gInputFileBuffer == NULL)
         fatal_error("failed to alloc file buffer for '%s'", fname);
@@ -224,13 +235,18 @@ int main(int argc, char **argv)
             if (*end != 0)
                 fatal_error("invalid integer value for option -l");
         }
-        else if (strcmp(argv[i], "-t") == 0)
-        {
-            CsInitMode = CS_MODE_THUMB;
-        }
         else if (strcmp(argv[i], "-m") == 0)
         {
+            char * endptr;
+            i++;
+            ModuleNum = strtol(argv[i], &endptr, 0);
+            if (ModuleNum == 0 && endptr == argv[i])
+                fatal_error("Invalid value for -m\n");
             isFullRom = false;
+        }
+        else if (strcmp(argv[i], "-7") == 0)
+        {
+            isArm7 = true;
         }
         else
         {
@@ -244,6 +260,8 @@ int main(int argc, char **argv)
     ROM_LOAD_ADDR=gRamStart;
     if (configFileName != NULL)
         read_config(configFileName);
+    else
+        fatal_error("config file required\n");
     disasm_disassemble();
     free(gInputFileBuffer);
     return 0;
