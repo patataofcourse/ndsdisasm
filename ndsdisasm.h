@@ -1,3 +1,16 @@
+#include <stdnoreturn.h>
+
+static inline noreturn __attribute__((format(printf, 1, 2))) void fatal_error(const char *fmt, ...)
+{
+    va_list args;
+
+    fputs("error: ", stderr);
+    va_start(args, fmt);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+    fputs("\n", stderr);
+    exit(1);
+}
 
 enum LabelType
 {

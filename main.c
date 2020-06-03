@@ -32,18 +32,6 @@ bool isFullRom = true;
 bool isArm7 = false;
 int ModuleNum = -1;
 
-void fatal_error(const char *fmt, ...)
-{
-    va_list args;
-
-    fputs("error: ", stderr);
-    va_start(args, fmt);
-    vfprintf(stderr, fmt, args);
-    va_end(args);
-    fputs("\n", stderr);
-    exit(1);
-}
-
 static void read_input_file(const char *fname)
 {
     FILE *file = fopen(fname, "rb");
@@ -66,7 +54,7 @@ static void read_input_file(const char *fname)
         fread(&ovy_offset, 4, 1, file);
         fread(&ovy_size, 4, 1, file);
         if (ModuleNum * 32u > ovy_size)
-            fatal_error("Argument to -m is out of range\n");
+            fatal_error("Argument to -m is out of range");
         fseek(file, ovy_offset + ModuleNum * 32 + 4, SEEK_SET);
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
@@ -175,7 +163,7 @@ static void read_config(const char *fname)
             }
             else
             {
-                fatal_error("%s: syntax error on line %i\n", fname, lineNum);
+                fatal_error("%s: syntax error on line %i", fname, lineNum);
             }
         }
         else if (strcmp(tokens[0], "thumb_func") == 0)
@@ -190,7 +178,7 @@ static void read_config(const char *fname)
             }
             else
             {
-                fatal_error("%s: syntax error on line %i\n", fname, lineNum);
+                fatal_error("%s: syntax error on line %i", fname, lineNum);
             }
         }
         else
@@ -227,6 +215,7 @@ int main(int argc, char **argv)
         }
         else if (strcmp(argv[i], "-l") == 0)
         {
+            fprintf(stderr, "warning: option -l is deprecated and will be removed in a future version\n");
             char * end;
             if (i + 1 >= argc)
                 fatal_error("expected integer for option -l");
@@ -239,9 +228,11 @@ int main(int argc, char **argv)
         {
             char * endptr;
             i++;
+            if (i + 1 >= argc)
+                fatal_error("expected integer for option -m");
             ModuleNum = strtol(argv[i], &endptr, 0);
             if (ModuleNum == 0 && endptr == argv[i])
-                fatal_error("Invalid value for -m\n");
+                fatal_error("Invalid integer value for option -m");
             isFullRom = false;
         }
         else if (strcmp(argv[i], "-7") == 0)
@@ -261,7 +252,7 @@ int main(int argc, char **argv)
     if (configFileName != NULL)
         read_config(configFileName);
     else
-        fatal_error("config file required\n");
+        fatal_error("config file required");
     disasm_disassemble();
     free(gInputFileBuffer);
     return 0;

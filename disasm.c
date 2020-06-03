@@ -12,8 +12,6 @@
 
 #include "ndsdisasm.h"
 
-extern void fatal_error(const char *fmt, ...);
-
 #define min(x, y) ((x) < (y) ? (x) : (y))
 
 uint32_t ROM_LOAD_ADDR;
