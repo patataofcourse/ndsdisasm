@@ -190,6 +190,16 @@ static void read_config(const char *fname)
     free(buffer);
 }
 
+static void usage(const char * program)
+{
+    printf("USAGE: %s -c CONFIG [-m OVERLAY] [-7] [-h] ROM\n\n"
+           "    ROM         file to disassemble\n"
+           "    -c CONFIG   space-delimited file with function types, offsets, and optionally names\n"
+           "    -m OVERLAY  Disassemble the overlay by index\n"
+           "    -7          Disassemble the ARM7 binary\n"
+           "    -h          Print this message and exit\n", program);
+}
+
 int main(int argc, char **argv)
 {
     int i;
@@ -209,30 +219,33 @@ int main(int argc, char **argv)
         if (strcmp(argv[i], "-c") == 0)
         {
             if (i + 1 >= argc)
+            {
+                usage(argv[0]);
                 fatal_error("expected filename for option -c");
+            }
             i++;
             configFileName = argv[i];
         }
-        else if (strcmp(argv[i], "-l") == 0)
+        else if (strcmp(argv[i], "-h") == 0)
         {
-            fprintf(stderr, "warning: option -l is deprecated and will be removed in a future version\n");
-            char * end;
-            if (i + 1 >= argc)
-                fatal_error("expected integer for option -l");
-            i++;
-            ROM_LOAD_ADDR = strtoul(argv[i], &end, 0);
-            if (*end != 0)
-                fatal_error("invalid integer value for option -l");
+            usage(argv[0]);
+            exit(0);
         }
         else if (strcmp(argv[i], "-m") == 0)
         {
             char * endptr;
             i++;
-            if (i + 1 >= argc)
+            if (i >= argc)
+            {
+                usage(argv[0]);
                 fatal_error("expected integer for option -m");
+            }
             ModuleNum = strtol(argv[i], &endptr, 0);
             if (ModuleNum == 0 && endptr == argv[i])
+            {
+                usage(argv[0]);
                 fatal_error("Invalid integer value for option -m");
+            }
             isFullRom = false;
         }
         else if (strcmp(argv[i], "-7") == 0)
@@ -246,13 +259,19 @@ int main(int argc, char **argv)
     }
 
     if (romFileName == NULL)
+    {
+        usage(argv[0]);
         fatal_error("no ROM file specified");
+    }
     read_input_file(romFileName);
     ROM_LOAD_ADDR=gRamStart;
     if (configFileName != NULL)
         read_config(configFileName);
     else
+    {
+        usage(argv[0]);
         fatal_error("config file required");
+    }
     disasm_disassemble();
     free(gInputFileBuffer);
     return 0;
