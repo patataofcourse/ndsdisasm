@@ -384,7 +384,8 @@ match:
         for (i = 1; i < sJumpTableInsnIdx; i++) {
             if (insn[-i].id == ARM_INS_CMP) {
                 numCases = insn[-i].detail->arm.operands[1].imm + 1;
-                break;
+                if (numCases > 1)
+                    break;
             }
         }
         i = 0;

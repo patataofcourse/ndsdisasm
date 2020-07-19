@@ -76,13 +76,13 @@ static void read_input_file(const char *fname)
         if ((autoload_end - autoload_start) / 12 <= (uint32_t)AutoloadNum)
             fatal_error("Argument to -a is out of range for ARM%d target", isArm7 ? 7 : 9);
         fseek(file, autoload_start - addr + offset, SEEK_SET);
-        while (AutoloadNum-- > 0) {
+        for (int i = 0; i < AutoloadNum; i++) {
             uint32_t size;
             fseek(file, 4, SEEK_CUR);
             fread(&size, 4, 1, file);
             fseek(file, 4, SEEK_CUR);
             gRomStart += size;
-            gRomStart = (gRomStart + 31) & 31;
+            gRomStart = (gRomStart + 31) & ~31;
         }
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
