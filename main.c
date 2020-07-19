@@ -30,6 +30,7 @@ uint32_t gRomStart;
 uint32_t gRamStart;
 bool isFullRom = true;
 bool isArm7 = false;
+int AutoloadNum = -1;
 int ModuleNum = -1;
 
 static void read_input_file(const char *fname)
@@ -45,7 +46,7 @@ static void read_input_file(const char *fname)
         fread(&gRamStart, 4, 1, file);
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
-    } else {
+    } else if (ModuleNum != -1) {
         uint32_t fat_offset, fat_size, ovy_offset, ovy_size;
         fseek(file, 0x48, SEEK_SET);
         fread(&fat_offset, 4, 1, file);
@@ -54,12 +55,37 @@ static void read_input_file(const char *fname)
         fread(&ovy_offset, 4, 1, file);
         fread(&ovy_size, 4, 1, file);
         if (ModuleNum * 32u > ovy_size)
-            fatal_error("Argument to -m is out of range");
+            fatal_error("Argument to -m is out of range for ARM%d target", isArm7 ? 7 : 9);
         fseek(file, ovy_offset + ModuleNum * 32 + 4, SEEK_SET);
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
         fseek(file, fat_offset + ModuleNum * 8, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
+    } else {
+        uint32_t offset, entry, addr;
+        fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
+        fread(&offset, 4, 1, file);
+        fread(&entry, 4, 1, file);
+        fread(&addr, 4, 1, file);
+        fseek(file, entry - addr + offset + (isArm7 ? 0x198 : 0x368), SEEK_SET);
+        uint32_t autoload_start, autoload_end, first_autoload;
+        fread(&autoload_start, 4, 1, file);
+        fread(&autoload_end, 4, 1, file);
+        fread(&first_autoload, 4, 1, file);
+        gRomStart = first_autoload - addr + offset;
+        if ((autoload_end - autoload_start) / 12 <= (uint32_t)AutoloadNum)
+            fatal_error("Argument to -a is out of range for ARM%d target", isArm7 ? 7 : 9);
+        fseek(file, autoload_start - addr + offset, SEEK_SET);
+        while (AutoloadNum-- > 0) {
+            uint32_t size;
+            fseek(file, 4, SEEK_CUR);
+            fread(&size, 4, 1, file);
+            fseek(file, 4, SEEK_CUR);
+            gRomStart += size;
+            gRomStart = (gRomStart + 31) & 31;
+        }
+        fread(&gRamStart, 4, 1, file);
+        fread(&gInputFileBufferSize, 4, 1, file);
     }
     fseek(file, gRomStart, SEEK_SET);
     gInputFileBuffer = malloc(gInputFileBufferSize);
@@ -196,6 +222,7 @@ static void usage(const char * program)
            "    ROM         file to disassemble\n"
            "    -c CONFIG   space-delimited file with function types, offsets, and optionally names\n"
            "    -m OVERLAY  Disassemble the overlay by index\n"
+           "    -a AUTOLOAD Disassemble the autoload by index\n"
            "    -7          Disassemble the ARM7 binary\n"
            "    -h          Print this message and exit\n", program);
 }
@@ -233,6 +260,11 @@ int main(int argc, char **argv)
         }
         else if (strcmp(argv[i], "-m") == 0)
         {
+            if (ModuleNum != -1 || AutoloadNum != -1)
+            {
+                usage(argv[0]);
+                fatal_error("can't specify both -a and -m");
+            }
             char * endptr;
             i++;
             if (i >= argc)
@@ -251,6 +283,28 @@ int main(int argc, char **argv)
         else if (strcmp(argv[i], "-7") == 0)
         {
             isArm7 = true;
+        }
+        else if (strcmp(argv[i], "-a") == 0)
+        {
+            if (ModuleNum != -1 || AutoloadNum != -1)
+            {
+                usage(argv[0]);
+                fatal_error("can't specify both -a and -m");
+            }
+            char * endptr;
+            i++;
+            if (i >= argc)
+            {
+                usage(argv[0]);
+                fatal_error("expected integer for option -a");
+            }
+            AutoloadNum = strtol(argv[i], &endptr, 0);
+            if (AutoloadNum == 0 && endptr == argv[i])
+            {
+                usage(argv[0]);
+                fatal_error("Invalid integer value for option -a");
+            }
+            isFullRom = false;
         }
         else
         {
