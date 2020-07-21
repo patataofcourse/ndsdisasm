@@ -30,6 +30,7 @@ extern uint32_t gRomStart;
 extern uint32_t gRamStart;
 extern bool isFullRom;
 extern bool isArm7;
+extern bool dumpUnDisassembled;
 
 // disasm.c
 int disasm_add_label(uint32_t addr, enum LabelType type, char *name);

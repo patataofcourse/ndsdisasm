@@ -929,6 +929,9 @@ static void print_disassembly(void)
             gLabels[i].branchType = BRANCH_TYPE_BL;
 
     i = 0;
+    if (addr > ROM_LOAD_ADDR)
+        print_gap(ROM_LOAD_ADDR, addr);
+
     while (addr < ROM_LOAD_ADDR + gInputFileBufferSize)
     {
         li = i;
@@ -941,6 +944,8 @@ static void print_disassembly(void)
             break;
 
         // TODO: compute actual size during analysis phase
+        if (gLabels[i].type == LABEL_POOL)
+            gLabels[i].size = 4;
         if (i + 1 < gLabelsCount)
         {
             if (gLabels[i].size == UNKNOWN_SIZE
@@ -1149,11 +1154,12 @@ static void print_disassembly(void)
             printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
         }
 
-        if (addr >= ROM_LOAD_ADDR && nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize) // prevent out-of-bound read
-            print_gap(addr, nextAddr);
+        if (addr >= ROM_LOAD_ADDR && (nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize || dumpUnDisassembled)) // prevent out-of-bound read
+            print_gap(addr, min(nextAddr, ROM_LOAD_ADDR + gInputFileBufferSize));
         addr = nextAddr;
     }
-    printf("\t@ 0x%08X\n", endaddr);
+    if (!dumpUnDisassembled)
+        printf("\t@ 0x%08X\n", endaddr);
 }
 
 void disasm_disassemble(void)

@@ -30,6 +30,7 @@ uint32_t gRomStart;
 uint32_t gRamStart;
 bool isFullRom = true;
 bool isArm7 = false;
+bool dumpUnDisassembled = false;
 int AutoloadNum = -1;
 int ModuleNum = -1;
 
@@ -82,7 +83,6 @@ static void read_input_file(const char *fname)
             fread(&size, 4, 1, file);
             fseek(file, 4, SEEK_CUR);
             gRomStart += size;
-            gRomStart = (gRomStart + 31) & ~31;
         }
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
@@ -224,6 +224,7 @@ static void usage(const char * program)
            "    -m OVERLAY  Disassemble the overlay by index\n"
            "    -a AUTOLOAD Disassemble the autoload by index\n"
            "    -7          Disassemble the ARM7 binary\n"
+           "    -d          Dump remaining data as raw bytes\n"
            "    -h          Print this message and exit\n", program);
 }
 
@@ -305,6 +306,10 @@ int main(int argc, char **argv)
                 fatal_error("Invalid integer value for option -a");
             }
             isFullRom = false;
+        }
+        else if (strcmp(argv[i], "-d") == 0)
+        {
+            dumpUnDisassembled = true;
         }
         else
         {
