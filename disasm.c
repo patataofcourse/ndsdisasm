@@ -908,7 +908,7 @@ static void print_disassembly(void)
     //uint32_t addr = ROM_LOAD_ADDR;
     int i = 0;
     int li;
-    char last_name[256];
+    char last_name[256] = "";
     enum LabelType last_label = LABEL_DATA;
     uint32_t endaddr = -1u;
 
@@ -1120,6 +1120,14 @@ static void print_disassembly(void)
                 cs_free(insn, count);
             }
             break;
+        case LABEL_DATA:
+            if (gLabels[i].size == UNKNOWN_SIZE || i + 1 >= gLabelsCount)
+                nextAddr = ROM_LOAD_ADDR + gInputFileBufferSize;
+            else
+                nextAddr = min(gLabels[i + 1].addr, ROM_LOAD_ADDR + gInputFileBufferSize);
+            print_gap(addr, nextAddr);
+            addr = nextAddr;
+            break;
         default:
             fatal_error("unrecognized label type: %d\n", gLabels[i].type);
         }
@@ -1129,7 +1137,8 @@ static void print_disassembly(void)
         if (i >= gLabelsCount)
         {
             // This is a function end
-            printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
+            if (last_name[0])
+                printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
             break;
         }
 
@@ -1148,7 +1157,8 @@ static void print_disassembly(void)
 
         if (last_label != LABEL_DATA
          && (gLabels[i].type == LABEL_THUMB_CODE || gLabels[i].type == LABEL_ARM_CODE)
-         && gLabels[i].branchType == BRANCH_TYPE_BL)
+         && gLabels[i].branchType == BRANCH_TYPE_BL
+         && last_name[0])
         {
             // This is a function end
             printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);

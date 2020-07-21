@@ -207,6 +207,21 @@ static void read_config(const char *fname)
                 fatal_error("%s: syntax error on line %i", fname, lineNum);
             }
         }
+        else if (strcmp(tokens[0], "data") == 0)
+        {
+            int addr;
+
+            if (sscanf(tokens[1], "%i", &addr) == 1)
+            {
+                if (strlen(tokens[2]) != 0)
+                    name = dup_string(tokens[2]);
+                disasm_add_label(addr, LABEL_DATA, name);
+            }
+            else
+            {
+                fatal_error("%s: syntax error on line %i", fname, lineNum);
+            }
+        }
         else
         {
             fprintf(stderr, "%s: warning: unrecognized command '%s' on line %i\n", fname, tokens[0], lineNum);
