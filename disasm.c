@@ -69,6 +69,8 @@ int disasm_add_label(uint32_t addr, enum LabelType type, char *name)
     //assert(addr >= ROM_LOAD_ADDR && addr < ROM_LOAD_ADDR + gInputFileBufferSize);
     if ((type == LABEL_ARM_CODE && (addr & 3)) || (type == LABEL_THUMB_CODE && (addr & 1)))
         fatal_error("Label at 0x%08x is misaligned.\n", addr);
+    if (ROM_LOAD_ADDR == 0 && addr == 0)
+        return -1;
     for (i = 0; i < gLabelsCount; i++)
     {
         if (gLabels[i].addr == addr)
@@ -317,7 +319,7 @@ static void jump_table_state_machine_thumb(const struct cs_insn *insn, uint32_t 
             }
         }
         i = 0;
-        assert(jumpTableBegin & ROM_LOAD_ADDR);
+        assert(ROM_LOAD_ADDR == 0 || jumpTableBegin & ROM_LOAD_ADDR);
         disasm_add_label(jumpTableBegin, isBx ? LABEL_JUMP_TABLE_THUMB_BX : LABEL_JUMP_TABLE_THUMB, NULL);
         sJumpTableState = 0;
         // add code labels from jump table
@@ -535,7 +537,8 @@ static void analyze(void)
                                             pool_target & 3 ? LABEL_THUMB_CODE : LABEL_ARM_CODE,
                                             NULL
                                         );
-                                        gLabels[added].isFunc = true;
+                                        if (added >= 0 && added < gLabelsCount)
+                                            gLabels[added].isFunc = true;
                                         break;
                                     }
                                 }
@@ -567,7 +570,7 @@ static void analyze(void)
 
                         // I don't remember why I needed this condition
                         //if (!(target >= gLabels[li].addr && target <= currAddr))
-                        if (1)
+                        if (target != addr)
                         {
                             enum LabelType newtype = type;
                             if (insn[i].id == ARM_INS_BLX)
@@ -929,7 +932,7 @@ static void print_disassembly(void)
             gLabels[i].branchType = BRANCH_TYPE_BL;
 
     i = 0;
-    if (addr > ROM_LOAD_ADDR)
+    if (addr > ROM_LOAD_ADDR && dumpUnDisassembled)
         print_gap(ROM_LOAD_ADDR, addr);
 
     while (addr < ROM_LOAD_ADDR + gInputFileBufferSize)
@@ -1181,12 +1184,6 @@ void disasm_disassemble(void)
         return;
     }
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
-
-    // entry point
-    // disasm_add_label(ROM_LOAD_ADDR, CsInitMode == CS_MODE_ARM ? LABEL_ARM_CODE : LABEL_THUMB_CODE, NULL);
-
-    // rom header
-    //disasm_add_label(ROM_LOAD_ADDR + 4, LABEL_DATA, NULL);
 
     analyze();
     print_disassembly();

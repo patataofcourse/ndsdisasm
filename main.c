@@ -62,7 +62,7 @@ static void read_input_file(const char *fname)
         fread(&gInputFileBufferSize, 4, 1, file);
         fseek(file, fat_offset + ModuleNum * 8, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
-    } else {
+    } else if (AutoloadNum != -1) {
         uint32_t offset, entry, addr;
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
         fread(&offset, 4, 1, file);
@@ -86,6 +86,11 @@ static void read_input_file(const char *fname)
         }
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
+    } else {
+        fseek(file, 0, SEEK_END);
+        gInputFileBufferSize = ftell(file);
+        gRamStart = 0;
+        gRomStart = 0;
     }
     fseek(file, gRomStart, SEEK_SET);
     gInputFileBuffer = malloc(gInputFileBufferSize);
@@ -276,10 +281,10 @@ int main(int argc, char **argv)
         }
         else if (strcmp(argv[i], "-m") == 0)
         {
-            if (ModuleNum != -1 || AutoloadNum != -1)
+            if (!isFullRom)
             {
                 usage(argv[0]);
-                fatal_error("can't specify both -a and -m");
+                fatal_error("can't specify more than one of the following together: -a, -m, -O");
             }
             char * endptr;
             i++;
@@ -302,10 +307,10 @@ int main(int argc, char **argv)
         }
         else if (strcmp(argv[i], "-a") == 0)
         {
-            if (ModuleNum != -1 || AutoloadNum != -1)
+            if (!isFullRom)
             {
                 usage(argv[0]);
-                fatal_error("can't specify both -a and -m");
+                fatal_error("can't specify more than one of the following together: -a, -m, -O");
             }
             char * endptr;
             i++;
@@ -319,6 +324,15 @@ int main(int argc, char **argv)
             {
                 usage(argv[0]);
                 fatal_error("Invalid integer value for option -a");
+            }
+            isFullRom = false;
+        }
+        else if (strcmp(argv[i], "-O") == 0)
+        {
+            if (!isFullRom)
+            {
+                usage(argv[0]);
+                fatal_error("can't specify more than one of the following together: -a, -m, -O");
             }
             isFullRom = false;
         }
