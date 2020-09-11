@@ -1,5 +1,9 @@
 #include <stdnoreturn.h>
 
+#define NDSDISASM_VERMAJ    1
+#define NDSDISASM_VERMIN    0
+#define NDSDISASM_VERSTP    4
+
 static inline noreturn __attribute__((format(printf, 1, 2))) void fatal_error(const char *fmt, ...)
 {
     va_list args;
@@ -33,5 +37,5 @@ extern bool isArm7;
 extern bool dumpUnDisassembled;
 
 // disasm.c
-int disasm_add_label(uint32_t addr, enum LabelType type, char *name);
+int disasm_add_label(uint32_t addr, enum LabelType type, char *name, bool is_config);
 void disasm_disassemble(void);

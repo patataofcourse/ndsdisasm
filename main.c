@@ -33,6 +33,77 @@ bool isArm7 = false;
 bool dumpUnDisassembled = false;
 int AutoloadNum = -1;
 int ModuleNum = -1;
+uint32_t CompressedStaticEnd = 0;
+
+#define READ32(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
+#define max(x, y) ((x) > (y) ? (x) : (y))
+#define min(x, y) ((x) < (y) ? (x) : (y))
+
+static void MIi_UncompressBackwards(__attribute__((unused)) const char * configFileName)
+{
+    if (CompressedStaticEnd == 0)                                              //     cmp r0, #0
+        return;                                                                //     beq @.end
+                                                                               //     stmfd sp!, {r4-r7}
+    // Read the pointer to the end of the compressed image
+    uint8_t * endptr = gInputFileBuffer + CompressedStaticEnd - gRamStart - 8; //     ldmdb r0, {r1, r2}
+    uint32_t size = READ32(endptr);
+    uint32_t offset = READ32(endptr + 4);
+    gInputFileBufferSize = max(CompressedStaticEnd - gRamStart + offset, gInputFileBufferSize);
+    gInputFileBuffer = realloc(gInputFileBuffer, gInputFileBufferSize);
+    endptr = gInputFileBuffer + CompressedStaticEnd - gRamStart;
+    uint8_t * dest_p = endptr + offset;                                        //     add r2, r0, r2
+    uint8_t * end = endptr - ((uint8_t)(size >> 24));                          //     sub r3, r0, r1, lsr #24
+                                                                               //     bic r1, r1, #0xff000000
+    uint8_t * start = endptr - (size & ~0xFF000000);                           //     sub r1, r0, r1
+    // uint8_t * dest_end = dest_p;
+                                                                               //     mov r4, r2 ; not crucial
+                                                                               // @.loop:
+    while (end > start)                                                        //     cmp r3, r1
+    {                                                                          //     ble @.dc_flush
+        uint8_t r5 = *--end;                                                   //     ldrb r5, [r3, #-1]!
+                                                                               //     mov r6, #8
+                                                                               // @.byte_loop:
+        for (int i = 0; i < 8; i++)                                            //     subs r6, r6, #1
+        {                                                                      //     blt @.loop
+            if ((r5 & 0x80) == 0)                                              //     tst r5, #0x80
+            {                                                                  //     bne @.readback
+                                                                               //     ldrb r0, [r3, #-1]!
+                *--dest_p = *--end;                                            //     strb r0, [r2, #-1]!
+            }                                                                  //     b @.byte_after
+            else                                                               // @.readback:
+            {
+                int ip = *--end;                                               //     ldrb r12, [r3, #-1]!
+                int r7 = *--end;                                               //     ldrb r7, [r3, #-1]!
+                                                                               //     orr r7, r7, r12, lsl #8
+                                                                               //     bic r7, r7, #0xf000
+                r7 = ((r7 | (ip << 8)) & ~0xF000) + 2;                         //     add r7, r7, #0x0002
+                ip += 0x20;                                                    //     add r12, r12, #0x0020
+                while (ip >= 0)                                                // @.readback_loop:
+                {
+                    dest_p[-1] = dest_p[r7];                                   //     ldrb r0, [r2, r7]
+                    dest_p--;                                                  //     strb r0, [r2, -1]!
+                    ip -= 0x10;                                                //     subs r12, r12, #0x0010
+                }                                                              //     bge @.readback_loop
+            }                                                                  // @.byte_after:
+            if (end <= start)                                                  //     cmp r3, r1
+                break;                                                         //     mov r5, r5, lsl #1
+            r5 <<= 1;                                                          //     bgt @.byte_loop
+        }                                                                      // @.dc_flush:
+    }
+
+//    char * sbinfname = malloc(strlen(configFileName) + 8);
+//    char * fname_endptr = stpcpy(sbinfname, configFileName);
+//    while (*--fname_endptr != '.') ;
+//    fname_endptr[1] = 's';
+//    fname_endptr[2] = 'b';
+//    fname_endptr[3] = 'i';
+//    fname_endptr[4] = 'n';
+//    fname_endptr[5] = '\0';
+//    FILE * sbinfile = fopen(sbinfname, "wb");
+//    fwrite(gInputFileBuffer, 1, gInputFileBufferSize, sbinfile);
+//    fclose(sbinfile);
+//    free(sbinfname);
+}
 
 static void read_input_file(const char *fname)
 {
@@ -41,14 +112,48 @@ static void read_input_file(const char *fname)
     if (file == NULL)
         fatal_error("could not open input file '%s'", fname);
     if (isFullRom) {
-        fseek(file, 0x2C + 0x10 * isArm7, SEEK_SET);
-        fread(&gInputFileBufferSize, 4, 1, file);
-        fseek(file, 0x28 + 0x10 * isArm7, SEEK_SET);
-        fread(&gRamStart, 4, 1, file);
+        uint32_t entry;
+        uint8_t code[0x1000];
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
+        fread(&entry, 4, 1, file);
+        fread(&gRamStart, 4, 1, file);
+        fread(&gInputFileBufferSize, 4, 1, file);
+        if (!isArm7)  // resident module only ever compressed in ARM9
+        {
+            csh cap;
+            cs_insn * insn;
+            cs_open(CS_ARCH_ARM, CS_MODE_ARM, &cap);
+            cs_option(cap, CS_OPT_DETAIL, CS_OPT_ON);
+            fseek(file, entry - gRamStart + gRomStart, SEEK_SET);
+            fread(code, 1, 0x1000, file);
+            int count = cs_disasm(cap, code, 0x1000, entry, 0x400, &insn);
+            for (int i = 0; i < count - 2; i++) {
+                cs_insn * cur_insn = &insn[i];
+                if (
+                    // ldr rX, [pc, #YYY]
+                    cur_insn[0].id == ARM_INS_LDR
+                 && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
+                 && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
+                    // ldr r0, [rX, #20]
+                 && cur_insn[1].id == ARM_INS_LDR
+                 && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R0
+                 && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
+                 && cur_insn[1].detail->arm.operands[1].mem.base == (arm_reg)cur_insn[0].detail->arm.operands[0].reg
+                 && cur_insn[1].detail->arm.operands[1].mem.disp == 20
+                    // bl MIi_UncompressBackwards
+                 && cur_insn[2].id == ARM_INS_BL
+                )
+                {
+                    uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
+                    uint32_t _start_ModuleParams_off = READ32(&code[pool_addr - entry]);
+                    CompressedStaticEnd = READ32(&code[_start_ModuleParams_off - entry + 20]);
+                }
+            }
+            cs_free(insn, count);
+        }
     } else if (ModuleNum != -1) {
-        uint32_t fat_offset, fat_size, ovy_offset, ovy_size;
+        uint32_t fat_offset, fat_size, ovy_offset, ovy_size, ovyfile, reserved;
         fseek(file, 0x48, SEEK_SET);
         fread(&fat_offset, 4, 1, file);
         fread(&fat_size, 4, 1, file);
@@ -60,8 +165,14 @@ static void read_input_file(const char *fname)
         fseek(file, ovy_offset + ModuleNum * 32 + 4, SEEK_SET);
         fread(&gRamStart, 4, 1, file);
         fread(&gInputFileBufferSize, 4, 1, file);
-        fseek(file, fat_offset + ModuleNum * 8, SEEK_SET);
+        fseek(file, 12, SEEK_CUR); // bss_size, sinit_start, sinit_end
+        fread(&ovyfile, 4, 1, file);
+        fread(&reserved, 4, 1, file);
+        fseek(file, fat_offset + ovyfile * 8, SEEK_SET);
         fread(&gRomStart, 4, 1, file);
+        if ((reserved >> 24) & 1) {
+            CompressedStaticEnd = gRamStart + (reserved & 0xFFFFFF);
+        }
     } else if (AutoloadNum != -1) {
         uint32_t offset, entry, addr;
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
@@ -190,7 +301,7 @@ static void read_config(const char *fname)
             {
                 if (strlen(tokens[2]) != 0)
                     name = dup_string(tokens[2]);
-                disasm_add_label(addr, LABEL_ARM_CODE, name);
+                disasm_add_label(addr, LABEL_ARM_CODE, name, true);
             }
             else
             {
@@ -205,7 +316,7 @@ static void read_config(const char *fname)
             {
                 if (strlen(tokens[2]) != 0)
                     name = dup_string(tokens[2]);
-                disasm_add_label(addr, LABEL_THUMB_CODE, name);
+                disasm_add_label(addr, LABEL_THUMB_CODE, name, true);
             }
             else
             {
@@ -220,7 +331,7 @@ static void read_config(const char *fname)
             {
                 if (strlen(tokens[2]) != 0)
                     name = dup_string(tokens[2]);
-                disasm_add_label(addr, LABEL_DATA, name);
+                disasm_add_label(addr, LABEL_DATA, name, true);
             }
             else
             {
@@ -238,14 +349,18 @@ static void read_config(const char *fname)
 
 static void usage(const char * program)
 {
-    printf("USAGE: %s -c CONFIG [-m OVERLAY] [-7] [-h] ROM\n\n"
+    printf("NDSDISASM v%d.%d.%d using libcapstone v%d.%d.%d\n\n"
+           "USAGE: %s -c CONFIG [-m OVERLAY] [-7] [-h] ROM\n\n"
            "    ROM         file to disassemble\n"
            "    -c CONFIG   space-delimited file with function types, offsets, and optionally names\n"
            "    -m OVERLAY  Disassemble the overlay by index\n"
            "    -a AUTOLOAD Disassemble the autoload by index\n"
            "    -7          Disassemble the ARM7 binary\n"
            "    -d          Dump remaining data as raw bytes\n"
-           "    -h          Print this message and exit\n", program);
+           "    -h          Print this message and exit\n",
+           NDSDISASM_VERMAJ,NDSDISASM_VERMIN,NDSDISASM_VERSTP,
+           CS_VERSION_MAJOR,CS_VERSION_MINOR,CS_VERSION_EXTRA,
+           program);
 }
 
 int main(int argc, char **argv)
@@ -352,6 +467,7 @@ int main(int argc, char **argv)
         fatal_error("no ROM file specified");
     }
     read_input_file(romFileName);
+    MIi_UncompressBackwards(configFileName);
     ROM_LOAD_ADDR=gRamStart;
     if (configFileName != NULL)
         read_config(configFileName);
