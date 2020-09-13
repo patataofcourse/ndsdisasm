@@ -115,10 +115,14 @@ static void read_input_file(const char *fname)
         uint32_t entry;
         uint8_t code[0x1000];
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
-        fread(&gRomStart, 4, 1, file);
-        fread(&entry, 4, 1, file);
-        fread(&gRamStart, 4, 1, file);
-        fread(&gInputFileBufferSize, 4, 1, file);
+        if (fread(&gRomStart, 4, 1, file) != 1)
+            fatal_error("read gRomStart");
+        if (fread(&entry, 4, 1, file) != 1)
+            fatal_error("read entry");
+        if (fread(&gRamStart, 4, 1, file) != 1)
+            fatal_error("read gRamStart");
+        if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
+            fatal_error("read gInputFileBufferSize");
         if (!isArm7)  // resident module only ever compressed in ARM9
         {
             csh cap;
@@ -126,7 +130,8 @@ static void read_input_file(const char *fname)
             cs_open(CS_ARCH_ARM, CS_MODE_ARM, &cap);
             cs_option(cap, CS_OPT_DETAIL, CS_OPT_ON);
             fseek(file, entry - gRamStart + gRomStart, SEEK_SET);
-            fread(code, 1, 0x1000, file);
+            if (fread(code, 1, 0x1000, file) != 0x1000)
+                fatal_error("read code");
             int count = cs_disasm(cap, code, 0x1000, entry, 0x400, &insn);
             for (int i = 0; i < count - 2; i++) {
                 cs_insn * cur_insn = &insn[i];
@@ -155,35 +160,50 @@ static void read_input_file(const char *fname)
     } else if (ModuleNum != -1) {
         uint32_t fat_offset, fat_size, ovy_offset, ovy_size, ovyfile, reserved;
         fseek(file, 0x48, SEEK_SET);
-        fread(&fat_offset, 4, 1, file);
-        fread(&fat_size, 4, 1, file);
+        if (fread(&fat_offset, 4, 1, file) != 1)
+            fatal_error("read fat_offset");
+        if (fread(&fat_size, 4, 1, file) != 1)
+            fatal_error("read fat_size");
         fseek(file, 0x50 + 8 * isArm7, SEEK_SET);
-        fread(&ovy_offset, 4, 1, file);
-        fread(&ovy_size, 4, 1, file);
+        if (fread(&ovy_offset, 4, 1, file) != 1)
+            fatal_error("read ovy_offset");
+        if (fread(&ovy_size, 4, 1, file) != 1)
+            fatal_error("read ovy_size");
         if (ModuleNum * 32u > ovy_size)
             fatal_error("Argument to -m is out of range for ARM%d target", isArm7 ? 7 : 9);
         fseek(file, ovy_offset + ModuleNum * 32 + 4, SEEK_SET);
-        fread(&gRamStart, 4, 1, file);
-        fread(&gInputFileBufferSize, 4, 1, file);
+        if (fread(&gRamStart, 4, 1, file) != 1)
+            fatal_error("read gRamStart");
+        if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
+            fatal_error("read gInputFileBufferSize");
         fseek(file, 12, SEEK_CUR); // bss_size, sinit_start, sinit_end
-        fread(&ovyfile, 4, 1, file);
-        fread(&reserved, 4, 1, file);
+        if (fread(&ovyfile, 4, 1, file) != 1)
+            fatal_error("read ovyfile");
+        if (fread(&reserved, 4, 1, file) != 1)
+            fatal_error("read reserved");
         fseek(file, fat_offset + ovyfile * 8, SEEK_SET);
-        fread(&gRomStart, 4, 1, file);
+        if (fread(&gRomStart, 4, 1, file) != 1)
+            fatal_error("read gRomStart");
         if ((reserved >> 24) & 1) {
             CompressedStaticEnd = gRamStart + (reserved & 0xFFFFFF);
         }
     } else if (AutoloadNum != -1) {
         uint32_t offset, entry, addr;
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
-        fread(&offset, 4, 1, file);
-        fread(&entry, 4, 1, file);
-        fread(&addr, 4, 1, file);
+        if (fread(&offset, 4, 1, file) != 1)
+            fatal_error("read offset");
+        if (fread(&entry, 4, 1, file) != 1)
+            fatal_error("read entry");
+        if (fread(&addr, 4, 1, file) != 1)
+            fatal_error("read addr");
         fseek(file, entry - addr + offset + (isArm7 ? 0x198 : 0x368), SEEK_SET);
         uint32_t autoload_start, autoload_end, first_autoload;
-        fread(&autoload_start, 4, 1, file);
-        fread(&autoload_end, 4, 1, file);
-        fread(&first_autoload, 4, 1, file);
+        if (fread(&autoload_start, 4, 1, file) != 1)
+            fatal_error("read autoload_start");
+        if (fread(&autoload_end, 4, 1, file) != 1)
+            fatal_error("read autoload_end");
+        if (fread(&first_autoload, 4, 1, file) != 1)
+            fatal_error("read first_autoload");
         gRomStart = first_autoload - addr + offset;
         if ((autoload_end - autoload_start) / 12 <= (uint32_t)AutoloadNum)
             fatal_error("Argument to -a is out of range for ARM%d target", isArm7 ? 7 : 9);
@@ -191,12 +211,15 @@ static void read_input_file(const char *fname)
         for (int i = 0; i < AutoloadNum; i++) {
             uint32_t size;
             fseek(file, 4, SEEK_CUR);
-            fread(&size, 4, 1, file);
+            if (fread(&size, 4, 1, file) != 1)
+                fatal_error("read size");
             fseek(file, 4, SEEK_CUR);
             gRomStart += size;
         }
-        fread(&gRamStart, 4, 1, file);
-        fread(&gInputFileBufferSize, 4, 1, file);
+        if (fread(&gRamStart, 4, 1, file) != 1)
+            fatal_error("read gRamStart");
+        if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
+            fatal_error("read gInputFileBufferSize");
     } else {
         fseek(file, 0, SEEK_END);
         gInputFileBufferSize = ftell(file);
