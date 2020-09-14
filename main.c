@@ -39,7 +39,7 @@ uint32_t CompressedStaticEnd = 0;
 #define max(x, y) ((x) > (y) ? (x) : (y))
 #define min(x, y) ((x) < (y) ? (x) : (y))
 
-static void MIi_UncompressBackwards(__attribute__((unused)) const char * configFileName)
+static void MIi_UncompressBackwards()
 {
     if (CompressedStaticEnd == 0)                                              //     cmp r0, #0
         return;                                                                //     beq @.end
@@ -105,6 +105,74 @@ static void MIi_UncompressBackwards(__attribute__((unused)) const char * configF
 //    free(sbinfname);
 }
 
+static uint32_t FindUncompressCall(FILE * file, uint32_t entry)
+{
+    static uint8_t code[0x1000];
+
+    csh cap;
+    cs_insn * insn;
+    cs_open(CS_ARCH_ARM, CS_MODE_ARM, &cap);
+    cs_option(cap, CS_OPT_DETAIL, CS_OPT_ON);
+    fseek(file, entry - gRamStart + gRomStart, SEEK_SET);
+    if (fread(code, 1, 0x1000, file) != 0x1000)
+        fatal_error("read code");
+    int count = cs_disasm(cap, code, 0x1000, entry, 0x1000, &insn);
+    for (int i = 0; i < count - 4; i++) {
+        cs_insn * cur_insn = &insn[i];
+        if (
+            // ldr rX, [pc, #YYY]
+            cur_insn[0].id == ARM_INS_LDR
+         && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
+         && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
+            // ldr r0, [rX, #20]
+         && cur_insn[1].id == ARM_INS_LDR
+         && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R0
+         && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
+            && cur_insn[1].detail->arm.operands[1].mem.base == (arm_reg)cur_insn[0].detail->arm.operands[0].reg
+         && cur_insn[1].detail->arm.operands[1].mem.disp == 20
+            // bl MIi_UncompressBackwards
+         && cur_insn[2].id == ARM_INS_BL
+        )
+        {
+            uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
+            uint32_t _start_ModuleParams_off = READ32(&code[pool_addr - entry]);
+            CompressedStaticEnd = READ32(&code[_start_ModuleParams_off - entry + 20]);
+            return _start_ModuleParams_off;
+        }
+        else if (
+            // ldr r0, =_start_ModuleParams
+            cur_insn[0].id == ARM_INS_LDR
+         && cur_insn[0].detail->arm.operands[0].reg == ARM_REG_R0
+         && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
+         && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
+            // ldr r1, [r0]
+         && cur_insn[1].id == ARM_INS_LDR
+         && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R1
+         && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
+         && cur_insn[1].detail->arm.operands[1].mem.base == ARM_REG_R0
+         && cur_insn[1].detail->arm.operands[1].mem.disp == 0
+            // ldr r2, [r0, #4]
+         && cur_insn[2].id == ARM_INS_LDR
+         && cur_insn[2].detail->arm.operands[0].reg == ARM_REG_R2
+         && cur_insn[2].detail->arm.operands[1].type == ARM_OP_MEM
+         && cur_insn[2].detail->arm.operands[1].mem.base == ARM_REG_R0
+         && cur_insn[2].detail->arm.operands[1].mem.disp == 4
+            // ldr r3, [r0, #8]
+         && cur_insn[3].id == ARM_INS_LDR
+         && cur_insn[3].detail->arm.operands[0].reg == ARM_REG_R3
+         && cur_insn[3].detail->arm.operands[1].type == ARM_OP_MEM
+         && cur_insn[3].detail->arm.operands[1].mem.base == ARM_REG_R0
+         && cur_insn[3].detail->arm.operands[1].mem.disp == 8
+        )
+        {
+            uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
+            return READ32(&code[pool_addr - entry]);
+        }
+    }
+    cs_free(insn, count);
+    return 0;
+}
+
 static void read_input_file(const char *fname)
 {
     FILE *file = fopen(fname, "rb");
@@ -113,7 +181,6 @@ static void read_input_file(const char *fname)
         fatal_error("could not open input file '%s'", fname);
     if (isFullRom) {
         uint32_t entry;
-        uint8_t code[0x1000];
         fseek(file, 0x20 + 0x10 * isArm7, SEEK_SET);
         if (fread(&gRomStart, 4, 1, file) != 1)
             fatal_error("read gRomStart");
@@ -123,40 +190,7 @@ static void read_input_file(const char *fname)
             fatal_error("read gRamStart");
         if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
             fatal_error("read gInputFileBufferSize");
-        if (!isArm7)  // resident module only ever compressed in ARM9
-        {
-            csh cap;
-            cs_insn * insn;
-            cs_open(CS_ARCH_ARM, CS_MODE_ARM, &cap);
-            cs_option(cap, CS_OPT_DETAIL, CS_OPT_ON);
-            fseek(file, entry - gRamStart + gRomStart, SEEK_SET);
-            if (fread(code, 1, 0x1000, file) != 0x1000)
-                fatal_error("read code");
-            int count = cs_disasm(cap, code, 0x1000, entry, 0x400, &insn);
-            for (int i = 0; i < count - 2; i++) {
-                cs_insn * cur_insn = &insn[i];
-                if (
-                    // ldr rX, [pc, #YYY]
-                    cur_insn[0].id == ARM_INS_LDR
-                 && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
-                 && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
-                    // ldr r0, [rX, #20]
-                 && cur_insn[1].id == ARM_INS_LDR
-                 && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R0
-                 && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
-                 && cur_insn[1].detail->arm.operands[1].mem.base == (arm_reg)cur_insn[0].detail->arm.operands[0].reg
-                 && cur_insn[1].detail->arm.operands[1].mem.disp == 20
-                    // bl MIi_UncompressBackwards
-                 && cur_insn[2].id == ARM_INS_BL
-                )
-                {
-                    uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
-                    uint32_t _start_ModuleParams_off = READ32(&code[pool_addr - entry]);
-                    CompressedStaticEnd = READ32(&code[_start_ModuleParams_off - entry + 20]);
-                }
-            }
-            cs_free(insn, count);
-        }
+        FindUncompressCall(file, entry);
     } else if (ModuleNum != -1) {
         uint32_t fat_offset, fat_size, ovy_offset, ovy_size, ovyfile, reserved;
         fseek(file, 0x48, SEEK_SET);
@@ -196,30 +230,43 @@ static void read_input_file(const char *fname)
             fatal_error("read entry");
         if (fread(&addr, 4, 1, file) != 1)
             fatal_error("read addr");
+        if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
+            fatal_error("read gInputFileBufferSize");
+        gRomStart = offset;
+        gRamStart = addr;
+        uint32_t start_ModuleParams = FindUncompressCall(file, entry);
+
+        fseek(file, offset, SEEK_SET);
+        gInputFileBuffer = malloc(gInputFileBufferSize);
+        if (gInputFileBuffer == NULL)
+            fatal_error("failed to alloc file buffer for '%s'", fname);
+        if (fread(gInputFileBuffer, 1, gInputFileBufferSize, file) != gInputFileBufferSize)
+            fatal_error("failed to read from file '%s'", fname);
+        MIi_UncompressBackwards();
+
         fseek(file, entry - addr + offset + (isArm7 ? 0x198 : 0x368), SEEK_SET);
         uint32_t autoload_start, autoload_end, first_autoload;
-        if (fread(&autoload_start, 4, 1, file) != 1)
-            fatal_error("read autoload_start");
-        if (fread(&autoload_end, 4, 1, file) != 1)
-            fatal_error("read autoload_end");
-        if (fread(&first_autoload, 4, 1, file) != 1)
-            fatal_error("read first_autoload");
+        autoload_start = READ32(gInputFileBuffer + start_ModuleParams - addr);
+        autoload_end = READ32(gInputFileBuffer + start_ModuleParams + 4 - addr);
+        first_autoload = READ32(gInputFileBuffer + start_ModuleParams + 8 - addr);
+        
         gRomStart = first_autoload - addr + offset;
         if ((autoload_end - autoload_start) / 12 <= (uint32_t)AutoloadNum)
             fatal_error("Argument to -a is out of range for ARM%d target", isArm7 ? 7 : 9);
         fseek(file, autoload_start - addr + offset, SEEK_SET);
         for (int i = 0; i < AutoloadNum; i++) {
-            uint32_t size;
-            fseek(file, 4, SEEK_CUR);
-            if (fread(&size, 4, 1, file) != 1)
-                fatal_error("read size");
-            fseek(file, 4, SEEK_CUR);
-            gRomStart += size;
+            gRomStart += READ32(gInputFileBuffer + 12 * i + 4 + autoload_start - addr);
         }
-        if (fread(&gRamStart, 4, 1, file) != 1)
-            fatal_error("read gRamStart");
-        if (fread(&gInputFileBufferSize, 4, 1, file) != 1)
-            fatal_error("read gInputFileBufferSize");
+        gRamStart = READ32(gInputFileBuffer + 12 * AutoloadNum + autoload_start - addr);
+        gInputFileBufferSize = READ32(gInputFileBuffer + 12 * AutoloadNum + autoload_start + 4 - addr);
+
+        uint8_t * tmp_buffer = malloc(gInputFileBufferSize);
+        if (tmp_buffer == NULL)
+            fatal_error("failed to alloc final buffer for '%s' autoload %d", fname, AutoloadNum);
+        memcpy(tmp_buffer, gInputFileBuffer + gRomStart - offset, gInputFileBufferSize);
+        free(gInputFileBuffer);
+        gInputFileBuffer = tmp_buffer;
+        return;
     } else {
         fseek(file, 0, SEEK_END);
         gInputFileBufferSize = ftell(file);
@@ -233,6 +280,7 @@ static void read_input_file(const char *fname)
     if (fread(gInputFileBuffer, 1, gInputFileBufferSize, file) != gInputFileBufferSize)
         fatal_error("failed to read from file '%s'", fname);
     fclose(file);
+    MIi_UncompressBackwards();
 }
 
 static char *split_word(char *s)
@@ -490,7 +538,6 @@ int main(int argc, char **argv)
         fatal_error("no ROM file specified");
     }
     read_input_file(romFileName);
-    MIi_UncompressBackwards(configFileName);
     ROM_LOAD_ADDR=gRamStart;
     if (configFileName != NULL)
         read_config(configFileName);
