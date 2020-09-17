@@ -34,6 +34,7 @@ bool dumpUnDisassembled = false;
 int AutoloadNum = -1;
 int ModuleNum = -1;
 uint32_t CompressedStaticEnd = 0;
+const char * outwriteFileName = NULL;
 
 #define READ32(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
 #define max(x, y) ((x) > (y) ? (x) : (y))
@@ -90,19 +91,6 @@ static void MIi_UncompressBackwards()
             r5 <<= 1;                                                          //     bgt @.byte_loop
         }                                                                      // @.dc_flush:
     }
-
-//    char * sbinfname = malloc(strlen(configFileName) + 8);
-//    char * fname_endptr = stpcpy(sbinfname, configFileName);
-//    while (*--fname_endptr != '.') ;
-//    fname_endptr[1] = 's';
-//    fname_endptr[2] = 'b';
-//    fname_endptr[3] = 'i';
-//    fname_endptr[4] = 'n';
-//    fname_endptr[5] = '\0';
-//    FILE * sbinfile = fopen(sbinfname, "wb");
-//    fwrite(gInputFileBuffer, 1, gInputFileBufferSize, sbinfile);
-//    fclose(sbinfile);
-//    free(sbinfname);
 }
 
 static uint32_t FindUncompressCall(FILE * file, uint32_t entry)
@@ -266,7 +254,7 @@ static void read_input_file(const char *fname)
         memcpy(tmp_buffer, gInputFileBuffer + gRomStart - offset, gInputFileBufferSize);
         free(gInputFileBuffer);
         gInputFileBuffer = tmp_buffer;
-        return;
+        goto done;
     } else {
         fseek(file, 0, SEEK_END);
         gInputFileBufferSize = ftell(file);
@@ -281,6 +269,20 @@ static void read_input_file(const char *fname)
         fatal_error("failed to read from file '%s'", fname);
     fclose(file);
     MIi_UncompressBackwards();
+  done:
+    if (outwriteFileName != NULL)
+    {
+        FILE *sbinfile = fopen(outwriteFileName, "wb");
+        if (sbinfile == NULL)
+        {
+            fatal_error("failed to open uncompress dump destination for writing\n");
+        }
+        if (fwrite(gInputFileBuffer, 1, gInputFileBufferSize, sbinfile) != gInputFileBufferSize)
+        {
+            fatal_error("error writing uncompress dump");
+        }
+        fclose(sbinfile);
+    }
 }
 
 static char *split_word(char *s)
@@ -421,14 +423,15 @@ static void read_config(const char *fname)
 static void usage(const char * program)
 {
     printf("NDSDISASM v%d.%d.%d using libcapstone v%d.%d.%d\n\n"
-           "USAGE: %s -c CONFIG [-m OVERLAY] [-7] [-h] ROM\n\n"
+           "USAGE: %s -c CONFIG [-m OVERLAY] [-a AUTOLOAD] [-7] [-h] [-d] [-Du] ROM\n\n"
            "    ROM         file to disassemble\n"
            "    -c CONFIG   space-delimited file with function types, offsets, and optionally names\n"
            "    -m OVERLAY  Disassemble the overlay by index\n"
            "    -a AUTOLOAD Disassemble the autoload by index\n"
            "    -7          Disassemble the ARM7 binary\n"
            "    -d          Dump remaining data as raw bytes\n"
-           "    -h          Print this message and exit\n",
+           "    -h          Print this message and exit\n"
+           "    -Du         Dump\n",
            NDSDISASM_VERMAJ,NDSDISASM_VERMIN,NDSDISASM_VERSTP,
            CS_VERSION_MAJOR,CS_VERSION_MINOR,CS_VERSION_EXTRA,
            program);
@@ -525,6 +528,16 @@ int main(int argc, char **argv)
         else if (strcmp(argv[i], "-d") == 0)
         {
             dumpUnDisassembled = true;
+        }
+        else if (strcmp(argv[i], "-Du") == 0)
+        {
+            ++i;
+            if (i >= argc)
+            {
+                usage(argv[0]);
+                fatal_error("missing filename argument to -Du");
+            }
+            outwriteFileName = argv[i];
         }
         else
         {
