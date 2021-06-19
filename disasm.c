@@ -740,7 +740,7 @@ static void print_gap(uint32_t addr, uint32_t nextaddr)
     }
 }
 
-static void do_print_insn(const char * fmt, int caseNum, ...)
+static void __attribute__((format(printf, 1, 3))) do_print_insn(const char * fmt, int caseNum, ...)
 {
     va_list va_args;
     va_start(va_args, caseNum);
@@ -776,7 +776,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                 label = &DummyLabel;
             }
             if (label->name != NULL)
-                do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, label-> name);
+                do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, label->name);
             else
                 do_print_insn("\t%s %s%08X\n", caseNum, insn->mnemonic, label->branchType == BRANCH_TYPE_BL ? functionPrefix : "", target);
         }
