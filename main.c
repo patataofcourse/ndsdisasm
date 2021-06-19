@@ -320,16 +320,6 @@ static char *skip_whitespace(char *s)
     return s;
 }
 
-static char *dup_string(const char *s)
-{
-    char *new = malloc(strlen(s) + 1);
-
-    if (new == NULL)
-        fatal_error("could not alloc space for string '%s'", s);
-    strcpy(new, s);
-    return new;
-}
-
 static void read_config(const char *fname)
 {
     FILE *file = fopen(fname, "rb");
@@ -373,7 +363,7 @@ static void read_config(const char *fname)
             if (sscanf(tokens[1], "%i", &addr) == 1)
             {
                 if (strlen(tokens[2]) != 0)
-                    name = dup_string(tokens[2]);
+                    name = strdup(tokens[2]);
                 disasm_add_label(addr, LABEL_ARM_CODE, name, true);
             }
             else
@@ -388,7 +378,7 @@ static void read_config(const char *fname)
             if (sscanf(tokens[1], "%i", &addr) == 1)
             {
                 if (strlen(tokens[2]) != 0)
-                    name = dup_string(tokens[2]);
+                    name = strdup(tokens[2]);
                 disasm_add_label(addr, LABEL_THUMB_CODE, name, true);
             }
             else
@@ -403,7 +393,7 @@ static void read_config(const char *fname)
             if (sscanf(tokens[1], "%i", &addr) == 1)
             {
                 if (strlen(tokens[2]) != 0)
-                    name = dup_string(tokens[2]);
+                    name = strdup(tokens[2]);
                 disasm_add_label(addr, LABEL_DATA, name, true);
             }
             else
@@ -423,7 +413,7 @@ static void read_config(const char *fname)
                     fprintf(stderr, "%s: warning: duplicate \"prefix function\" command supercedes earlier ones on line %i\n", fname, lineNum);
                     free((char*)functionPrefix);
                 }
-                functionPrefix = dup_string(tokens[2]);
+                functionPrefix = strdup(tokens[2]);
                 functionPrefixOverridden = true;
             }
             else if (strcmp(tokens[1], "data") == 0)
@@ -435,7 +425,7 @@ static void read_config(const char *fname)
                     fprintf(stderr, "%s: warning: duplicate \"prefix data\" command supercedes earlier ones on line %i\n", fname, lineNum);
                     free((char*)dataPrefix);
                 }
-                dataPrefix = dup_string(tokens[2]);
+                dataPrefix = strdup(tokens[2]);
                 dataPrefixOverridden = true;
             }
             else
