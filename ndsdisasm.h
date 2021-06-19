@@ -35,6 +35,10 @@ extern uint32_t gRamStart;
 extern bool isFullRom;
 extern bool isArm7;
 extern bool dumpUnDisassembled;
+extern const char *functionPrefix;
+extern const char *dataPrefix;
+extern bool functionPrefixOverridden;
+extern bool dataPrefixOverridden;
 
 // disasm.c
 int disasm_add_label(uint32_t addr, enum LabelType type, char *name, bool is_config);

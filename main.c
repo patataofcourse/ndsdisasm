@@ -1,14 +1,9 @@
 #include <ctype.h>
-#include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if CAPSTONE_VERMAJ < 4
 #include <capstone.h>
-#else
-#include <capstone/capstone.h>
-#endif //CAPSTONE_VERMAJ
 
 #ifdef _WIN32
 #include <io.h>
@@ -35,6 +30,11 @@ int AutoloadNum = -1;
 int ModuleNum = -1;
 uint32_t CompressedStaticEnd = 0;
 const char * outwriteFileName = NULL;
+
+const char * functionPrefix = "FUN_";
+const char * dataPrefix = "UNK_";
+bool functionPrefixOverridden = false;
+bool dataPrefixOverridden = false;
 
 #define READ32(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
 #define max(x, y) ((x) > (y) ? (x) : (y))
@@ -411,6 +411,38 @@ static void read_config(const char *fname)
                 fatal_error("%s: syntax error on line %i", fname, lineNum);
             }
         }
+        else if (strcmp(tokens[0], "prefix") == 0)
+        {
+            bool isValidSecondToken = strlen(tokens[2]) != 0;
+            if (strcmp(tokens[1], "function") == 0)
+            {
+                if (!isValidSecondToken)
+                    fatal_error("%s: missing second argument to prefix command on line %i", fname, lineNum);
+                if (functionPrefixOverridden)
+                {
+                    fprintf(stderr, "%s: warning: duplicate \"prefix function\" command supercedes earlier ones on line %i\n", fname, lineNum);
+                    free((char*)functionPrefix);
+                }
+                functionPrefix = dup_string(tokens[2]);
+                functionPrefixOverridden = true;
+            }
+            else if (strcmp(tokens[1], "data") == 0)
+            {
+                if (!isValidSecondToken)
+                    fatal_error("%s: missing second argument to prefix command on line %i", fname, lineNum);
+                if (dataPrefixOverridden)
+                {
+                    fprintf(stderr, "%s: warning: duplicate \"prefix data\" command supercedes earlier ones on line %i\n", fname, lineNum);
+                    free((char*)dataPrefix);
+                }
+                dataPrefix = dup_string(tokens[2]);
+                dataPrefixOverridden = true;
+            }
+            else
+            {
+                fatal_error("%s: missing first argument to prefix command on line %i", fname, lineNum);
+            }
+        }
         else
         {
             fprintf(stderr, "%s: warning: unrecognized command '%s' on line %i\n", fname, tokens[0], lineNum);
@@ -424,14 +456,14 @@ static void usage(const char * program)
 {
     printf("NDSDISASM v%d.%d.%d using libcapstone v%d.%d.%d\n\n"
            "USAGE: %s -c CONFIG [-m OVERLAY] [-a AUTOLOAD] [-7] [-h] [-d] [-Du] ROM\n\n"
-           "    ROM         file to disassemble\n"
-           "    -c CONFIG   space-delimited file with function types, offsets, and optionally names\n"
-           "    -m OVERLAY  Disassemble the overlay by index\n"
-           "    -a AUTOLOAD Disassemble the autoload by index\n"
-           "    -7          Disassemble the ARM7 binary\n"
-           "    -d          Dump remaining data as raw bytes\n"
-           "    -h          Print this message and exit\n"
-           "    -Du         Dump\n",
+           "    ROM        \tfile to disassemble\n"
+           "    -c CONFIG  \tspace-delimited file with function types, offsets, and optionally names\n"
+           "    -m OVERLAY \tDisassemble the overlay by index\n"
+           "    -a AUTOLOAD\tDisassemble the autoload by index\n"
+           "    -7         \tDisassemble the ARM7 binary\n"
+           "    -d         \tDump remaining data as raw bytes\n"
+           "    -h         \tPrint this message and exit\n"
+           "    -Du BINFILE\tDump the (uncompressed) binary to file\n",
            NDSDISASM_VERMAJ,NDSDISASM_VERMIN,NDSDISASM_VERSTP,
            CS_VERSION_MAJOR,CS_VERSION_MINOR,CS_VERSION_EXTRA,
            program);

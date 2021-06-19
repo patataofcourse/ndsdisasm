@@ -4,11 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if CAPSTONE_VERMAJ < 4
 #include <capstone.h>
-#else
-#include <capstone/capstone.h>
-#endif //CAPSTONE_VERMAJ
 
 #include "ndsdisasm.h"
 
@@ -782,7 +778,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
             if (label->name != NULL)
                 do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, label-> name);
             else
-                do_print_insn("\t%s %s_%08X\n", caseNum, insn->mnemonic, label->branchType == BRANCH_TYPE_BL ? "FUN" : "", target);
+                do_print_insn("\t%s %s%08X\n", caseNum, insn->mnemonic, label->branchType == BRANCH_TYPE_BL ? functionPrefix : "", target);
         }
         else if (is_pool_load(insn))
         {
@@ -799,7 +795,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                         if (label_p->name != NULL)
                             do_print_insn("\t%s %s, _%08X @ =%s\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
                         else
-                            do_print_insn("\t%s %s, _%08X @ =FUN_%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value & ~1);
+                            do_print_insn("\t%s %s, _%08X @ =%s%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value & ~1);
                         return;
                     }
                 }
@@ -812,7 +808,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                     if (label_p->name != NULL)
                         do_print_insn("\t%s %s, _%08X @ =%s\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
                     else if (label_p->branchType == BRANCH_TYPE_BL)
-                        do_print_insn("\t%s %s, _%08X @ =FUN_%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value);
+                        do_print_insn("\t%s %s, _%08X @ =%s%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value);
                     else // normal label
                         do_print_insn("\t%s %s, _%08X @ =_%08X\n", caseNum,
                           insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value);
@@ -848,7 +844,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                         if (label_p->name != NULL)
                             do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, label_p->name);
                         else if (label_p->branchType == BRANCH_TYPE_BL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =FUN_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, functionPrefix, word);
                         else
                             do_print_insn("\tadd %s, pc, #0x%X @ =_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, word);
                         return;
@@ -876,7 +872,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                             if (label_p->name != NULL)
                                 do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
                             else
-                                do_print_insn("\tadd %s, pc, #0x%X @ =FUN_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word & ~1);
+                                do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word & ~1);
                             return;
                         }
                     }
@@ -889,7 +885,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                         if (label_p->name != NULL)
                             do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
                         else if (label_p->branchType == BRANCH_TYPE_BL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =FUN_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word);
                         else
                             do_print_insn("\tadd %s, pc, #0x%X @ =_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
                         return;
@@ -987,7 +983,7 @@ static void print_disassembly(void)
                     if (gLabels[i].name != NULL)
                         strcpy(last_name, gLabels[i].name);
                     else
-                        sprintf(last_name, "FUN_%08X", addr);
+                        sprintf(last_name, "%s%08X", functionPrefix, addr);
                     printf("\n\t%s %s\n",
                            (last_label == LABEL_ARM_CODE) ? "arm_func_start" : (addr & 2 ? "non_word_aligned_thumb_func_start" : "thumb_func_start"),
                            last_name);
@@ -1065,7 +1061,7 @@ static void print_disassembly(void)
                             if (label_p->name != NULL)
                                 printf("_%08X: .4byte %s\n", addr, label_p->name);
                             else
-                                printf("_%08X: .4byte FUN_%08X\n", addr, value & ~1);
+                                printf("_%08X: .4byte %s%08X\n", addr, functionPrefix, value & ~1);
                             addr += 4;
                             break;
                         }
@@ -1079,7 +1075,7 @@ static void print_disassembly(void)
                         if (label_p->name != NULL)
                             printf("_%08X: .4byte %s\n", addr, label_p->name);
                         else if (label_p->branchType == BRANCH_TYPE_BL)
-                            printf("_%08X: .4byte FUN_%08X\n", addr, value);
+                            printf("_%08X: .4byte %s%08X\n", addr, functionPrefix, value);
                         else // normal label
                             printf("_%08X: .4byte _%08X\n", addr, value);
                         addr += 4;
