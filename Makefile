@@ -11,6 +11,7 @@ endif
 
 PROGRAM := ndsdisasm
 SOURCES := main.c disasm.c
+HEADERS := ndsdisasm.h
 
 .PHONY: all capstone
 
@@ -19,7 +20,7 @@ all: capstone $(PROGRAM)
 # Compile the program
 $(PROGRAM): CFLAGS += $(shell PKG_CONFIG_PATH=$(CAPSTONE_DIR) pkg-config --cflags capstone)
 $(PROGRAM): LDFLAGS += $(shell PKG_CONFIG_PATH=$(CAPSTONE_DIR) pkg-config --libs capstone)
-$(PROGRAM): $(SOURCES)
+$(PROGRAM): $(SOURCES) $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ $(SOURCES) $(LDFLAGS)
 
 # Build libcapstone

@@ -2,7 +2,7 @@
 
 #define NDSDISASM_VERMAJ    1
 #define NDSDISASM_VERMIN    0
-#define NDSDISASM_VERSTP    4
+#define NDSDISASM_VERSTP    5
 
 static inline noreturn __attribute__((format(printf, 1, 2))) void fatal_error(const char *fmt, ...)
 {
