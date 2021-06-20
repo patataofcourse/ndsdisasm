@@ -670,6 +670,12 @@ static void analyze(void)
                             assert((poolAddr & 3) == 0);
                             disasm_add_label(poolAddr, LABEL_POOL, NULL, false);
                             word = word_at(poolAddr);
+                            if (insn[i].detail->arm.operands[0].reg == ARM_REG_PC)
+                            {
+                                renew_or_add_new_func_label(word & 1 ? LABEL_THUMB_CODE : LABEL_ARM_CODE, word);
+                                if (insn[i].detail->arm.cc == ARM_CC_AL)
+                                    break;
+                            }
 
                         check_handwritten_indirect_jump:
                             if (i < count - 1) // is not last insn in the chunk
