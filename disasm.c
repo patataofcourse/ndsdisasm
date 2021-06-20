@@ -219,6 +219,7 @@ static uint32_t get_branch_target(const struct cs_insn *insn)
 {
     assert(is_branch(insn));
     assert(insn->detail != NULL);
+    assert(insn->detail->arm.op_count > 0);
 
     return insn->detail->arm.operands[0].imm;
 }
@@ -778,7 +779,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
             if (label->name != NULL)
                 do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, label->name);
             else
-                do_print_insn("\t%s %s%08X\n", caseNum, insn->mnemonic, label->branchType == BRANCH_TYPE_BL ? functionPrefix : "", target);
+                do_print_insn("\t%s %s%08X\n", caseNum, insn->mnemonic, (label->branchType == BRANCH_TYPE_BL ? functionPrefix : "_"), target);
         }
         else if (is_pool_load(insn))
         {

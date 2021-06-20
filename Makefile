@@ -1,6 +1,7 @@
 CAPSTONE_DIR := capstone
 
-DEBUG ?= 0
+DEBUG               ?= 0
+USE_SYSTEM_CAPSTONE ?= 1
 
 CFLAGS := -Wall -Wextra -Wpedantic
 ifeq ($(DEBUG),1)
@@ -15,11 +16,17 @@ HEADERS := ndsdisasm.h
 
 .PHONY: all capstone
 
-all: capstone $(PROGRAM)
+all: $(PROGRAM)
 
 # Compile the program
-$(PROGRAM): CFLAGS += $(shell PKG_CONFIG_PATH=$(CAPSTONE_DIR) pkg-config --cflags capstone)
-$(PROGRAM): LDFLAGS += $(shell PKG_CONFIG_PATH=$(CAPSTONE_DIR) pkg-config --libs capstone)
+ifneq ($(USE_SYSTEM_CAPSTONE),1)
+$(PROGRAM): $(CAPSTONE_DIR)/libcapstone.a
+$(CAPSTONE_DIR)/libcapstone.a: capstone
+export PKG_CONFIG_PATH := $(CAPSTONE_DIR)
+endif
+
+$(PROGRAM): CFLAGS += $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --cflags capstone)
+$(PROGRAM): LDFLAGS += $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs capstone)
 $(PROGRAM): $(SOURCES) $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ $(SOURCES) $(LDFLAGS)
 
@@ -30,6 +37,3 @@ capstone:
 clean:
 	$(RM) $(PROGRAM) $(PROGRAM).exe
 	@$(MAKE) -C $(CAPSTONE_DIR) clean
-
-$(PROGRAM): $(CAPSTONE_DIR)/libcapstone.a
-$(CAPSTONE_DIR)/libcapstone.a: ;
