@@ -104,60 +104,71 @@ static uint32_t FindUncompressCall(FILE * file, uint32_t entry)
     fseek(file, entry - gRamStart + gRomStart, SEEK_SET);
     if (fread(code, 1, 0x1000, file) != 0x1000)
         fatal_error("read code");
-    int count = cs_disasm(cap, code, 0x1000, entry, 0x1000, &insn);
-    for (int i = 0; i < count - 4; i++) {
-        cs_insn * cur_insn = &insn[i];
-        if (
-            // ldr rX, [pc, #YYY]
-            cur_insn[0].id == ARM_INS_LDR
-         && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
-         && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
-            // ldr r0, [rX, #20]
-         && cur_insn[1].id == ARM_INS_LDR
-         && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R0
-         && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
-            && cur_insn[1].detail->arm.operands[1].mem.base == (arm_reg)cur_insn[0].detail->arm.operands[0].reg
-         && cur_insn[1].detail->arm.operands[1].mem.disp == 20
-            // bl MIi_UncompressBackwards
-         && cur_insn[2].id == ARM_INS_BL
-        )
+    int count;
+    int offset = 0;
+    do {
+        count = cs_disasm(cap, code + offset, 0x1000 - offset, entry + offset, 0x1000, &insn);
+        if (count < 4)
         {
-            uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
-            uint32_t _start_ModuleParams_off = READ32(&code[pool_addr - entry]);
-            CompressedStaticEnd = READ32(&code[_start_ModuleParams_off - entry + 20]);
-            return _start_ModuleParams_off;
+            offset += 4 * (count + 1);
+            continue;
         }
-        else if (
-            // ldr r0, =_start_ModuleParams
-            cur_insn[0].id == ARM_INS_LDR
-         && cur_insn[0].detail->arm.operands[0].reg == ARM_REG_R0
-         && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
-         && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
-            // ldr r1, [r0]
-         && cur_insn[1].id == ARM_INS_LDR
-         && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R1
-         && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
-         && cur_insn[1].detail->arm.operands[1].mem.base == ARM_REG_R0
-         && cur_insn[1].detail->arm.operands[1].mem.disp == 0
-            // ldr r2, [r0, #4]
-         && cur_insn[2].id == ARM_INS_LDR
-         && cur_insn[2].detail->arm.operands[0].reg == ARM_REG_R2
-         && cur_insn[2].detail->arm.operands[1].type == ARM_OP_MEM
-         && cur_insn[2].detail->arm.operands[1].mem.base == ARM_REG_R0
-         && cur_insn[2].detail->arm.operands[1].mem.disp == 4
-            // ldr r3, [r0, #8]
-         && cur_insn[3].id == ARM_INS_LDR
-         && cur_insn[3].detail->arm.operands[0].reg == ARM_REG_R3
-         && cur_insn[3].detail->arm.operands[1].type == ARM_OP_MEM
-         && cur_insn[3].detail->arm.operands[1].mem.base == ARM_REG_R0
-         && cur_insn[3].detail->arm.operands[1].mem.disp == 8
-        )
+        for (int i = 0; i < count - 4; i++)
         {
-            uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
-            return READ32(&code[pool_addr - entry]);
+            cs_insn *cur_insn = &insn[i];
+            if (
+                // ldr rX, [pc, #YYY]
+                cur_insn[0].id == ARM_INS_LDR
+                && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
+                // ldr r0, [rX, #20]
+                && cur_insn[1].id == ARM_INS_LDR
+                && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R0
+                && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[1].detail->arm.operands[1].mem.base == (arm_reg) cur_insn[0].detail->arm.operands[0].reg
+                && cur_insn[1].detail->arm.operands[1].mem.disp == 20
+                // bl MIi_UncompressBackwards
+                && cur_insn[2].id == ARM_INS_BL
+                )
+            {
+                uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
+                uint32_t _start_ModuleParams_off = READ32(&code[pool_addr - entry]);
+                CompressedStaticEnd = READ32(&code[_start_ModuleParams_off - entry + 20]);
+                return _start_ModuleParams_off;
+            }
+            else if (
+                // ldr r0, =_start_ModuleParams
+                cur_insn[0].id == ARM_INS_LDR
+                && cur_insn[0].detail->arm.operands[0].reg == ARM_REG_R0
+                && cur_insn[0].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[0].detail->arm.operands[1].mem.base == ARM_REG_PC
+                // ldr r1, [r0]
+                && cur_insn[1].id == ARM_INS_LDR
+                && cur_insn[1].detail->arm.operands[0].reg == ARM_REG_R1
+                && cur_insn[1].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[1].detail->arm.operands[1].mem.base == ARM_REG_R0
+                && cur_insn[1].detail->arm.operands[1].mem.disp == 0
+                // ldr r2, [r0, #4]
+                && cur_insn[2].id == ARM_INS_LDR
+                && cur_insn[2].detail->arm.operands[0].reg == ARM_REG_R2
+                && cur_insn[2].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[2].detail->arm.operands[1].mem.base == ARM_REG_R0
+                && cur_insn[2].detail->arm.operands[1].mem.disp == 4
+                // ldr r3, [r0, #8]
+                && cur_insn[3].id == ARM_INS_LDR
+                && cur_insn[3].detail->arm.operands[0].reg == ARM_REG_R3
+                && cur_insn[3].detail->arm.operands[1].type == ARM_OP_MEM
+                && cur_insn[3].detail->arm.operands[1].mem.base == ARM_REG_R0
+                && cur_insn[3].detail->arm.operands[1].mem.disp == 8
+                )
+            {
+                uint32_t pool_addr = cur_insn[0].address + cur_insn[0].detail->arm.operands[1].mem.disp + 8;
+                return READ32(&code[pool_addr - entry]);
+            }
         }
-    }
-    cs_free(insn, count);
+        offset = insn[count - 1].address + insn[count - 1].size - entry;
+        cs_free(insn, count);
+    } while (offset < 0x800);
     return 0;
 }
 
