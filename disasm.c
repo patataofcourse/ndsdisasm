@@ -1141,8 +1141,8 @@ static void print_disassembly(void)
             else
                 printf("_%08X:\n", addr);
             print_gap(addr, nextAddr);
-            addr = nextAddr;
-            break;
+            endaddr = addr = nextAddr;
+            goto next;
         default:
             fatal_error("unrecognized label type: %d\n", gLabels[i].type);
         }
