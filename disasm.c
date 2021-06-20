@@ -27,13 +27,14 @@ const char * gBranchTypeNames[] = {
 };
 
 const char * gLabelTypeNames[] = {
-    "LABEL_ARM_CODE",
-    "LABEL_THUMB_CODE",
-    "LABEL_DATA",
-    "LABEL_POOL",
-    "LABEL_JUMP_TABLE",
-    "LABEL_JUMP_TABLE_THUMB",
-    "LABEL_JUMP_TABLE_THUMB_BX",
+    [LABEL_ARM_CODE]            = "LABEL_ARM_CODE",
+    [LABEL_THUMB_CODE]          = "LABEL_THUMB_CODE",
+    [LABEL_DATA]                = "LABEL_DATA",
+    [LABEL_POOL]                = "LABEL_POOL",
+    [LABEL_JUMP_TABLE]          = "LABEL_JUMP_TABLE",
+    [LABEL_JUMP_TABLE_THUMB]    = "LABEL_JUMP_TABLE_THUMB",
+    [LABEL_JUMP_TABLE_THUMB_BX] = "LABEL_JUMP_TABLE_THUMB_BX",
+    [LABEL_ASCII]               = "LABEL_ASCII",
 };
 
 struct Label
@@ -710,16 +711,23 @@ static void analyze(void)
 
 // Disassembly Output
 
-static uint32_t print_align(uint32_t addr)
+static uint32_t print_align(uint32_t addr, enum LabelType labelType)
 {
-    if ((addr & 3) == 2) {
-        uint16_t next_short = hword_at(addr);
-        if (next_short == 0) {
-            fputs("\t.align 2, 0\n", stdout);
-            addr += 2;
-        } else if (next_short == 0x46C0) {
-            fputs("\tnop\n", stdout);
-            addr += 2;
+    if (labelType == LABEL_THUMB_CODE)
+    {
+        if ((addr & 3) == 2)
+        {
+            uint16_t next_short = hword_at(addr);
+            if (next_short == 0)
+            {
+                fputs("\t.align 2, 0\n", stdout);
+                addr += 2;
+            }
+            else if (next_short == 0x46C0)
+            {
+                fputs("\tnop\n", stdout);
+                addr += 2;
+            }
         }
     }
     return addr;
@@ -1141,12 +1149,24 @@ static void print_disassembly(void)
             else
                 printf("_%08X:\n", addr);
             print_gap(addr, nextAddr);
-            endaddr = addr = nextAddr;
-            goto next;
+            addr = nextAddr;
+            break;
+        case LABEL_ASCII:
+            if (gLabels[i].name)
+                printf("%s: @ 0x%08X\n", gLabels[i].name, addr);
+            else
+                printf("_%08X:\n", addr);
+            const char * s = (const char *)&gInputFileBuffer[addr - ROM_LOAD_ADDR];
+            size_t slen = strlen(s);
+            if (addr + slen + 1 >= ROM_LOAD_ADDR + gInputFileBufferSize)
+                fatal_error("Improperly terminated string at 0x%08X\n", addr);
+            printf("\t.asciz \"%s\"\n", s);
+            addr += slen + 1;
+            break;
         default:
             fatal_error("unrecognized label type: %d\n", gLabels[i].type);
         }
-        endaddr = addr = print_align(addr);
+        endaddr = addr = print_align(addr, gLabels[i].type);
     next:
         i++;
         if (i >= gLabelsCount)

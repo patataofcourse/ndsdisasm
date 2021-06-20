@@ -412,6 +412,21 @@ static void read_config(const char *fname)
                 fatal_error("%s: syntax error on line %i", fname, lineNum);
             }
         }
+        else if (strcmp(tokens[0], "ascii") == 0)
+        {
+            int addr;
+
+            if (sscanf(tokens[1], "%i", &addr) == 1)
+            {
+                if (strlen(tokens[2]) != 0)
+                    name = strdup(tokens[2]);
+                disasm_add_label(addr, LABEL_ASCII, name, true);
+            }
+            else
+            {
+                fatal_error("%s: syntax error on line %i", fname, lineNum);
+            }
+        }
         else if (strcmp(tokens[0], "prefix") == 0)
         {
             bool isValidSecondToken = strlen(tokens[2]) != 0;

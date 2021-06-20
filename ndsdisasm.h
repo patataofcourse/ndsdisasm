@@ -25,6 +25,7 @@ enum LabelType
     LABEL_JUMP_TABLE,
     LABEL_JUMP_TABLE_THUMB,
     LABEL_JUMP_TABLE_THUMB_BX,
+    LABEL_ASCII,
 };
 
 extern uint8_t *gInputFileBuffer;
