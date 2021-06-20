@@ -1147,7 +1147,10 @@ static void print_disassembly(void)
         {
             // This is a function end
             if (last_name[0])
+            {
                 printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
+                last_name[0] = 0;
+            }
             break;
         }
 
@@ -1171,6 +1174,7 @@ static void print_disassembly(void)
         {
             // This is a function end
             printf("\t%s %s\n", (last_label == LABEL_THUMB_CODE) ? "thumb_func_end" : "arm_func_end", last_name);
+            last_name[0] = 0;
         }
 
         if (addr >= ROM_LOAD_ADDR && (nextAddr <= ROM_LOAD_ADDR + gInputFileBufferSize || dumpUnDisassembled) && addr != nextAddr) // prevent out-of-bound read
