@@ -21,9 +21,9 @@ enum BranchType
 };
 
 const char * gBranchTypeNames[] = {
-    "BRANCH_TYPE_UNKNOWN",
-    "BRANCH_TYPE_B",
-    "BRANCH_TYPE_BL",
+    [BRANCH_TYPE_UNKNOWN] = "BRANCH_TYPE_UNKNOWN",
+    [BRANCH_TYPE_B]       = "BRANCH_TYPE_B",
+    [BRANCH_TYPE_BL]      = "BRANCH_TYPE_BL",
 };
 
 const char * gLabelTypeNames[] = {
@@ -948,7 +948,7 @@ static void print_disassembly(void)
     if (addr > ROM_LOAD_ADDR && dumpUnDisassembled)
     {
         printf("_%08X:\n", ROM_LOAD_ADDR);
-        print_gap(ROM_LOAD_ADDR, addr);
+        print_gap(ROM_LOAD_ADDR, min(addr, ROM_LOAD_ADDR + gInputFileBufferSize));
     }
 
     while (addr < ROM_LOAD_ADDR + gInputFileBufferSize)
@@ -971,7 +971,11 @@ static void print_disassembly(void)
              || gLabels[i].addr + gLabels[i].size > gLabels[i + 1].addr)
                 gLabels[i].size = gLabels[i + 1].addr - gLabels[i].addr;
             if (gLabels[i].addr + gLabels[i].size >= ROM_LOAD_ADDR + gInputFileBufferSize)
-                break;
+            {
+                if (gLabels[i].type != LABEL_DATA)
+                    break;
+                gLabels[i].size = ROM_LOAD_ADDR + gInputFileBufferSize - gLabels[i].addr;
+            }
         }
 
         switch (gLabels[i].type)
@@ -1210,7 +1214,12 @@ static void print_disassembly(void)
         }
         addr = nextAddr;
     }
-    if (!dumpUnDisassembled)
+    if (dumpUnDisassembled && addr >= ROM_LOAD_ADDR && addr < ROM_LOAD_ADDR + gInputFileBufferSize)
+    {
+        printf("_%08X:\n", addr);
+        print_gap(addr, ROM_LOAD_ADDR + gInputFileBufferSize);
+    }
+    else
         printf("\t@ 0x%08X\n", endaddr);
 }
 
