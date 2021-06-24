@@ -133,6 +133,7 @@ static struct Label *lookup_label(uint32_t addr)
 
 static uint8_t byte_at(uint32_t addr)
 {
+    assert(addr < ROM_LOAD_ADDR + gInputFileBufferSize);
     return gInputFileBuffer[addr - ROM_LOAD_ADDR];
 }
 
