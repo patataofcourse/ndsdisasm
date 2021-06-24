@@ -599,7 +599,7 @@ int main(int argc, char **argv)
         fatal_error("no ROM file specified");
     }
     read_input_file(romFileName);
-    ROM_LOAD_ADDR=gRamStart;
+    ROM_LOAD_ADDR = gRamStart;
     if (configFileName != NULL)
         read_config(configFileName);
     else

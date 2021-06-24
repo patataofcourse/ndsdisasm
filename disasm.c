@@ -108,6 +108,15 @@ int disasm_add_label(uint32_t addr, enum LabelType type, char *name, bool is_con
     return i;
 }
 
+void FreeLabels(void)
+{
+    for (int i = 0; i < gLabelsCount; i++) {
+        if (gLabels[i].name != NULL)
+            free(gLabels[i].name);
+    }
+    free(gLabels);
+}
+
 // Utility Functions
 
 static struct Label *lookup_label(uint32_t addr)
@@ -436,7 +445,9 @@ static void renew_or_add_new_func_label(enum LabelType type, uint32_t word)
         else
         {
             // implicitly set to BRANCH_TYPE_BL
-            gLabels[disasm_add_label(word & ~1, type, NULL, false)].isFunc = true;
+            int lab = disasm_add_label(word & ~1, type, NULL, false);
+            assert(lab != -1);
+            gLabels[lab].isFunc = true;
         }
     }
 }
@@ -495,7 +506,7 @@ static void analyze(void)
                             addr += 2;
                             if (insn[i].size == 2) continue;
                             tmp_cnt = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 2, addr, 0, &tmp);
-                            if (tmp_cnt == 1)
+                            if (tmp_cnt != 0)
                             {
                                 free(insn[i].detail);
                                 insn[i] = *tmp;
@@ -759,14 +770,11 @@ static void __attribute__((format(printf, 1, 3))) do_print_insn(const char * fmt
 {
     va_list va_args;
     va_start(va_args, caseNum);
-    char * true_fmt = strdup(fmt);
-    true_fmt[strlen(true_fmt) - 1] = 0;
-    vprintf(true_fmt, va_args);
+    vprintf(fmt, va_args);
     if (caseNum >= 0)
         printf(" @ case %d\n", caseNum);
     else
         putchar('\n');
-    free(true_fmt);
     va_end(va_args);
 }
 
@@ -775,7 +783,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
     struct Label DummyLabel;
     if (gOptionShowAddrComments)
     {
-        do_print_insn("\t/*0x%08X*/ %s %s\n", caseNum, addr, insn->mnemonic, insn->op_str);
+        do_print_insn("\t/*0x%08X*/ %s %s", caseNum, addr, insn->mnemonic, insn->op_str);
     }
     else
     {
@@ -791,9 +799,9 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                 label = &DummyLabel;
             }
             if (label->name != NULL)
-                do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, label->name);
+                do_print_insn("\t%s %s", caseNum, insn->mnemonic, label->name);
             else
-                do_print_insn("\t%s %s%08X\n", caseNum, insn->mnemonic, (label->branchType == BRANCH_TYPE_BL ? functionPrefix : "_"), target);
+                do_print_insn("\t%s %s%08X", caseNum, insn->mnemonic, (label->branchType == BRANCH_TYPE_BL ? functionPrefix : "_"), target);
         }
         else if (is_pool_load(insn))
         {
@@ -808,9 +816,9 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                     if (label_p->branchType == BRANCH_TYPE_BL && label_p->type == LABEL_THUMB_CODE)
                     {
                         if (label_p->name != NULL)
-                            do_print_insn("\t%s %s, _%08X @ =%s\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
+                            do_print_insn("\t%s %s, _%08X @ =%s", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
                         else
-                            do_print_insn("\t%s %s, _%08X @ =%s%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value & ~1);
+                            do_print_insn("\t%s %s, _%08X @ =%s%08X", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value & ~1);
                         return;
                     }
                 }
@@ -821,16 +829,16 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                 if (label_p->type != LABEL_THUMB_CODE)
                 {
                     if (label_p->name != NULL)
-                        do_print_insn("\t%s %s, _%08X @ =%s\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
+                        do_print_insn("\t%s %s, _%08X @ =%s", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, label_p->name);
                     else if (label_p->branchType == BRANCH_TYPE_BL)
-                        do_print_insn("\t%s %s, _%08X @ =%s%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value);
+                        do_print_insn("\t%s %s, _%08X @ =%s%08X", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, functionPrefix, value);
                     else // normal label
-                        do_print_insn("\t%s %s, _%08X @ =_%08X\n", caseNum,
+                        do_print_insn("\t%s %s, _%08X @ =_%08X", caseNum,
                           insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value);
                     return;
                 }
             }
-            do_print_insn("\t%s %s, _%08X @ =0x%08X\n", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value);
+            do_print_insn("\t%s %s, _%08X @ =0x%08X", caseNum, insn->mnemonic, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), word, value);
         }
         else
         {
@@ -841,7 +849,7 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
              && insn->detail->arm.operands[1].reg == ARM_REG_SP
              && insn->detail->arm.operands[2].type == ARM_OP_REG)
             {
-                do_print_insn("\t%s %s, %s\n", caseNum,
+                do_print_insn("\t%s %s, %s", caseNum,
                   insn->mnemonic,
                   cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg),
                   cs_reg_name(sCapstone, insn->detail->arm.operands[1].reg));
@@ -857,15 +865,15 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                     if (label_p->type != LABEL_THUMB_CODE)
                     {
                         if (label_p->name != NULL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, label_p->name);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, label_p->name);
                         else if (label_p->branchType == BRANCH_TYPE_BL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, functionPrefix, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, functionPrefix, word);
                         else
-                            do_print_insn("\tadd %s, pc, #0x%X @ =_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =_%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm, word);
                         return;
                     }
                 }
-                do_print_insn("\tadd %s, pc, #0x%X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm);
+                do_print_insn("\tadd %s, pc, #0x%X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[1].imm);
             }
             // arm adr
             else if (mode == LABEL_ARM_CODE
@@ -885,9 +893,9 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                         if (label_p->branchType == BRANCH_TYPE_BL && label_p->type == LABEL_THUMB_CODE)
                         {
                             if (label_p->name != NULL)
-                                do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
+                                do_print_insn("\tadd %s, pc, #0x%X @ =%s", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
                             else
-                                do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word & ~1);
+                                do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word & ~1);
                             return;
                         }
                     }
@@ -898,18 +906,18 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
                     if (label_p->type != LABEL_THUMB_CODE)
                     {
                         if (label_p->name != NULL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =%s\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, label_p->name);
                         else if (label_p->branchType == BRANCH_TYPE_BL)
-                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =%s%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, functionPrefix, word);
                         else
-                            do_print_insn("\tadd %s, pc, #0x%X @ =_%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
+                            do_print_insn("\tadd %s, pc, #0x%X @ =_%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
                         return;
                     }
                 }
-                do_print_insn("\tadd %s, pc, #0x%X @ =0x%08X\n", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
+                do_print_insn("\tadd %s, pc, #0x%X @ =0x%08X", caseNum, cs_reg_name(sCapstone, insn->detail->arm.operands[0].reg), insn->detail->arm.operands[2].imm, word);
             }
             else
-                do_print_insn("\t%s %s\n", caseNum, insn->mnemonic, insn->op_str);
+                do_print_insn("\t%s %s", caseNum, insn->mnemonic, insn->op_str);
         }
     }
 }
@@ -1032,7 +1040,7 @@ static void print_disassembly(void)
                             addr += 2;
                             if (insn[j].size == 2) continue;
                             tmp_cnt = cs_disasm(sCapstone, gInputFileBuffer + addr - ROM_LOAD_ADDR, 2, addr, 0, &tmp);
-                            if (tmp_cnt == 1)
+                            if (tmp_cnt != 0)
                             {
                                 free(insn[j].detail);
                                 insn[j] = *tmp;
@@ -1235,5 +1243,5 @@ void disasm_disassemble(void)
 
     analyze();
     print_disassembly();
-    free(gLabels);
+    FreeLabels();
 }

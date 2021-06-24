@@ -9,6 +9,7 @@ CFLAGS += -O0 -g
 else
 CFLAGS += -O2 -g
 endif
+CFLAGS += -fsanitize=address
 
 PROGRAM := ndsdisasm
 SOURCES := main.c disasm.c
