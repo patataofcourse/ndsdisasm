@@ -536,22 +536,28 @@ static void analyze(void)
                         {
                             struct Label *label_p;
 
-                            if (insn[i].id == ARM_INS_BX && insn[i].detail->arm.operands[0].reg == ARM_REG_R3)
+                            if (insn[i].id == ARM_INS_BX && insn[i].detail->arm.operands[0].type == ARM_OP_REG)
                             {
                                 for (int j = i - 1; j >= 0; j--)
                                 {
-                                    if (is_pool_load(&insn[j]) && insn[j].detail->arm.operands[0].reg == ARM_REG_R3)
+                                    if (insn[j].detail->arm.operands[0].reg == insn[i].detail->arm.operands[0].reg)
                                     {
-                                        // Tail call
-                                        uint32_t pool_target = word_at(get_pool_load(&insn[j], insn[j].address, type));
-                                        int added = disasm_add_label(
-                                            pool_target & ~1,
-                                            pool_target & 3 ? LABEL_THUMB_CODE : LABEL_ARM_CODE,
-                                            NULL,
-                                            false
-                                        );
-                                        if (added >= 0 && added < gLabelsCount)
-                                            gLabels[added].isFunc = true;
+                                        if (is_pool_load(&insn[j]))
+                                        {
+                                            // Tail call
+                                            uint32_t pool_target = word_at(
+                                                get_pool_load(&insn[j], insn[j].address, type));
+                                            int added = disasm_add_label(
+                                                pool_target & ~1,
+                                                pool_target & 3 ? LABEL_THUMB_CODE : LABEL_ARM_CODE,
+                                                NULL,
+                                                false
+                                            );
+                                            if (added >= 0 && added < gLabelsCount)
+                                            {
+                                                gLabels[added].isFunc = true;
+                                            }
+                                        }
                                         break;
                                     }
                                 }
