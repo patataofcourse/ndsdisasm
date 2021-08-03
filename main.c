@@ -601,13 +601,15 @@ int main(int argc, char **argv)
     read_input_file(romFileName);
     ROM_LOAD_ADDR = gRamStart;
     if (configFileName != NULL)
+    {
         read_config(configFileName);
-    else
+        disasm_disassemble();
+    }
+    else if (outwriteFileName == NULL)
     {
         usage(argv[0]);
         fatal_error("config file required");
     }
-    disasm_disassemble();
     free(gInputFileBuffer);
     return 0;
 }
