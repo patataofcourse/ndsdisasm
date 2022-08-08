@@ -31,8 +31,8 @@ int ModuleNum = -1;
 uint32_t CompressedStaticEnd = 0;
 const char * outwriteFileName = NULL;
 
-const char * functionPrefix = "FUN_";
-const char * dataPrefix = "UNK_";
+const char * functionPrefix = "func_";
+const char * dataPrefix = "D_";
 bool functionPrefixOverridden = false;
 bool dataPrefixOverridden = false;
 

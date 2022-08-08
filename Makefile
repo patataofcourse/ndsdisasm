@@ -1,9 +1,9 @@
 CAPSTONE_DIR := capstone
 
 DEBUG               ?= 0
-USE_SYSTEM_CAPSTONE ?= 1
+USE_SYSTEM_CAPSTONE ?= 0
 
-CFLAGS := -Wall -Wextra -Wpedantic
+CFLAGS := -Wall -Wextra -Wpedantic -Icapstone/include/capstone 
 ifeq ($(DEBUG),1)
 CFLAGS += -O0 -g
 else

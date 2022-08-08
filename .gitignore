@@ -8,3 +8,4 @@ capstone-*
 *.nds
 .idea/
 cmake-build-*
+*.s
