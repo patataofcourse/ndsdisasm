@@ -3,7 +3,8 @@ CAPSTONE_DIR := capstone
 DEBUG               ?= 0
 USE_SYSTEM_CAPSTONE ?= 0
 
-CFLAGS := -Wall -Wextra -Wpedantic -Icapstone/include/capstone 
+CFLAGS 	:= -Wall -Wextra -Wpedantic -Icapstone/include/capstone 
+LDFLAGS := -Lcapstone -l capstone
 ifeq ($(DEBUG),1)
 CFLAGS += -O0 -g
 else
@@ -27,7 +28,7 @@ export PKG_CONFIG_PATH := $(CAPSTONE_DIR)
 endif
 
 $(PROGRAM): CFLAGS += $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --cflags capstone)
-$(PROGRAM): LDFLAGS += $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs capstone)
+#$(PROGRAM): LDFLAGS += $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs capstone)
 $(PROGRAM): $(SOURCES) $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ $(SOURCES) $(LDFLAGS)
 
