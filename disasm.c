@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -931,7 +932,13 @@ static void print_insn(const cs_insn *insn, uint32_t addr, int mode, int caseNum
 
 static int qsort_label_compare(const void *a, const void *b)
 {
-    return ((struct Label *)a)->addr - ((struct Label *)b)->addr;
+    long int out = (long)((struct Label *)a)->addr - (long)((struct Label *)b)->addr;
+    if (out > INT_MAX)
+        return 1;
+    else if (out < INT_MIN)
+        return -1;
+    else
+        return out;
 }
 
 static void print_disassembly(void)
@@ -946,8 +953,9 @@ static void print_disassembly(void)
     qsort(gLabels, gLabelsCount, sizeof(*gLabels), qsort_label_compare);
     uint32_t addr = gLabels[0].addr, lastAddr = addr;
 
-    for (i = 0; i < gLabelsCount - 1; i++)
+    for (i = 0; i < gLabelsCount - 1; i++) {
         assert(gLabels[i].addr < gLabels[i + 1].addr);
+    }
     for (i = 0; i < gLabelsCount; i++)
     {
         if (gLabels[i].type == LABEL_ARM_CODE || gLabels[i].type == LABEL_THUMB_CODE)

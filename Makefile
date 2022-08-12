@@ -8,7 +8,7 @@ LDFLAGS := -Lcapstone -l capstone
 ifeq ($(DEBUG),1)
 CFLAGS += -O0 -g
 else
-CFLAGS += -O2 -g
+CFLAGS += -O2
 endif
 CFLAGS += -fsanitize=address
 
